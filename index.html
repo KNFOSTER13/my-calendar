@@ -1105,4 +1105,134 @@
             const event = {
                 id: Date.now(),
                 title: document.getElementById('eventTitle').value,
-                date
+                date: document.getElementById('eventDate').value,
+                time: document.getElementById('eventTime').value,
+                duration: document.getElementById('eventDuration').value,
+                pillar: document.getElementById('eventPillar').value,
+                where: document.getElementById('eventWhere').value,
+                who: document.getElementById('eventWho').value,
+                why: document.getElementById('eventWhy').innerHTML,
+                tags: Array.from(document.querySelectorAll('#tagsInput .tag-input-item')).map(el => el.textContent.replace('×', '').trim())
+            };
+            events.push(event);
+            saveEventsToStorage();
+            renderCurrentView();
+            closeModal();
+            showToast('Event added successfully!');
+        }
+        
+        window.saveMediaItem = async function(e) {
+            e.preventDefault();
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            submitButton.textContent = 'Uploading...';
+            submitButton.disabled = true;
+            const mediaId = Date.now();
+            const thumbnailFile = document.getElementById('mediaThumbnail').files[0];
+            let thumbnailUrl = thumbnailFile ? await blobToBase64(thumbnailFile) : createColorPlaceholder();
+            const selectedPlatforms = Array.from(document.querySelectorAll('#mediaModal input[name="platform"]:checked')).map(cb => cb.value);
+            const keywords = Array.from(document.querySelectorAll('#mediaKeywordsInput .tag-input-item')).map(el => el.textContent.replace('×', '').trim());
+            const mediaItem = {
+                id: mediaId,
+                title: document.getElementById('mediaTitle').value,
+                brand: document.getElementById('mediaBrand').value,
+                type: document.getElementById('mediaType').value,
+                platforms: selectedPlatforms,
+                publishDate: document.getElementById('mediaDate').value,
+                publishTime: document.getElementById('mediaTime').value,
+                thumbnail: thumbnailUrl,
+                keywords: keywords,
+                access: document.querySelector('input[name="mediaAccess"]:checked').value
+            };
+            mediaItems.push(mediaItem);
+            saveMediaItemsMinimal();
+            renderCurrentView();
+            closeMediaModal();
+            showToast('Media item added successfully!');
+            submitButton.textContent = 'SAVE MEDIA';
+            submitButton.disabled = false;
+        }
+        
+        window.handleTagInput = function(e) {
+            if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                const input = e.target;
+                const tag = input.value.trim();
+                if (tag) {
+                    const el = document.createElement('div');
+                    el.className = 'tag-input-item';
+                    el.innerHTML = `${tag}<span class="tag-remove" onclick="this.parentElement.remove()">×</span>`;
+                    document.getElementById('tagsInput').insertBefore(el, input);
+                    input.value = '';
+                }
+            }
+        }
+        
+        window.focusTagInput = function() {
+            document.getElementById('tagInputField').focus();
+        }
+        
+        window.formatText = function(command) {
+            document.execCommand(command, false, null);
+        }
+        
+        window.printCalendar = function() { window.print(); }
+        window.exportToCSV = function() { showToast('Exporting to CSV...'); }
+        window.exportToJSON = function() { showToast('Exporting to JSON...'); }
+        
+        function formatDate(date) { return date.toISOString().split('T')[0]; }
+        
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        function renderWeekView() {}
+        function renderAgendaView() {}
+        function renderYearView() {}
+        
+        window.saveBulkEvents = function() {
+            closeBulkModal();
+            showToast('Events added!');
+        }
+        
+        window.onclick = (e) => {
+            if (e.target.classList.contains('modal')) {
+                closeModal();
+                closeMediaModal();
+                closeBulkModal();
+            }
+        };
+        
+        function createColorPlaceholder() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 32; canvas.height = 32;
+            const ctx = canvas.getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 32, 32);
+            gradient.addColorStop(0, `hsl(${Math.random() * 360}, 70%, 50%)`);
+            gradient.addColorStop(1, `hsl(${Math.random() * 360}, 70%, 40%)`);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 32, 32);
+            return canvas.toDataURL('image/jpeg', 0.5);
+        }
+        
+        function blobToBase64(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+        
+        function saveMediaItemsMinimal() {
+            const minimalItems = mediaItems.map(item => ({ ...item, thumbnail: item.thumbnail?.startsWith('data:image') ? createColorPlaceholder() : item.thumbnail }));
+            localStorage.setItem('luxuryCalendarMedia', JSON.stringify(minimalItems));
+        }
+        
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
