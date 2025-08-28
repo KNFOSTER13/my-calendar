@@ -791,4 +791,318 @@
                 <div class="form-group"><label>Where? (Location)</label><input type="text" id="eventWhere" placeholder="Location or link"></div>
                 <div class="form-group"><label>Who? (People Involved)</label><input type="text" id="eventWho" placeholder="Who's involved?"></div>
                 <div class="form-group">
-                    <label>Why? (Purpose
+                    <label>Why? (Purpose/Context)</label>
+                    <div class="rich-editor"><div class="editor-toolbar"><button type="button" class="editor-btn" onclick="formatText('bold')"><b>B</b></button><button type="button" class="editor-btn" onclick="formatText('italic')"><i>I</i></button><button type="button" class="editor-btn" onclick="formatText('underline')"><u>U</u></button><button type="button" class="editor-btn" onclick="insertLink()">🔗</button></div><div class="editor-content" id="eventWhy" contenteditable="true"></div></div>
+                </div>
+                <div class="form-group">
+                    <label>Tags</label>
+                    <div class="tags-input" id="tagsInput" onclick="focusTagInput()"><input type="text" class="tag-input-field" id="tagInputField" placeholder="Add tags..." onkeydown="handleTagInput(event)"></div>
+                </div>
+                <button type="submit" class="add-btn">Save Event</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="modal" id="mediaModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeMediaModal()">×</button>
+            <h3>Add New Media</h3>
+            <form id="mediaForm" onsubmit="saveMediaItem(event)">
+                <div class="form-group"><label>Content Title</label><input type="text" id="mediaTitle" required></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Brand</label><select id="mediaBrand" required><option value="knf">KNF</option><option value="for_harriet">For Harriet</option><option value="shallow_side">The Shallow Side</option><option value="making_things">Making Things is Hard</option><option value="taste_of_kimberly">Taste of Kimberly</option><option value="kimberly_thoughts">Kimberly Has Thoughts</option></select></div>
+                    <div class="form-group"><label>Content Type</label><select id="mediaType" required><option value="video">Video</option><option value="text">Text</option><option value="image">Image</option><option value="graphic">Graphic</option><option value="audio">Audio</option><option value="live">Live</option><option value="curation">Curation</option></select></div>
+                </div>
+                <div class="form-group">
+                    <label>Platform(s)</label>
+                    <div class="platforms-grid">
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="Facebook"><span>Facebook</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Instagram"><span>Instagram</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="LinkedIn"><span>LinkedIn</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Pinterest"><span>Pinterest</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Reddit"><span>Reddit</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Substack"><span>Substack</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Threads"><span>Threads</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="TikTok"><span>TikTok</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Twitter"><span>Twitter</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="YouTube"><span>YouTube</span></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Publish Date</label><input type="date" id="mediaDate" required></div>
+                    <div class="form-group"><label>Publish Time</label><input type="time" id="mediaTime"></div>
+                </div>
+                <div class="form-group">
+                    <label>Thumbnail</label>
+                    <div class="file-upload-wrapper"><input type="file" id="mediaThumbnail" accept="image/*" onchange="handleThumbnailChange(event)"><label for="mediaThumbnail" class="file-upload-label"><span id="fileLabel">Choose File</span><span id="fileName">No file chosen</span></label></div>
+                    <img id="thumbnailPreview" src="" alt="Thumbnail Preview" style="max-width: 100px; border-radius: 8px; margin-top: 10px; display: none;">
+                </div>
+                <div class="form-group"><label>Content Link (after published)</label><input type="url" id="mediaContentLink" placeholder="https://example.com/your-content"></div>
+                <div class="form-group">
+                    <label>Keywords</label>
+                    <div class="tags-input" id="mediaKeywordsInput" onclick="focusKeywordInput()"><input type="text" class="tag-input-field" id="mediaKeywordField" placeholder="Add keywords..." onkeydown="handleKeywordInput(event)"></div>
+                </div>
+                <div class="form-group">
+                    <label>Access</label>
+                    <div class="access-options"><label class="access-radio"><input type="radio" name="mediaAccess" value="free" checked><span>Free</span></label><label class="access-radio"><input type="radio" name="mediaAccess" value="paywalled"><span>Paywalled</span></label></div>
+                </div>
+                <button type="submit" class="media-save-btn">SAVE MEDIA</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="modal" id="bulkAddModal"><div class="modal-content"><button class="close-modal" onclick="closeBulkModal()">×</button><h3>Add Multiple Events</h3><div id="bulkEventsList"></div><button class="add-btn" onclick="saveBulkEvents()">Save All Events</button></div></div>
+    
+    <script>
+        // State
+        let currentView = 'month';
+        let currentDate = new Date();
+        let events = [];
+        let mediaItems = [];
+        let activeFilters = new Set(['all']);
+        let searchQuery = '';
+        
+        // Initialize
+        function init() {
+            loadEvents();
+            loadMediaItems();
+            renderCurrentView();
+        }
+        
+        // Load events from localStorage
+        function loadEvents() {
+            const localData = localStorage.getItem('luxuryCalendarEvents');
+            if (localData) {
+                events = JSON.parse(localData);
+            }
+        }
+        
+        // Save events to localStorage
+        function saveEventsToStorage() {
+            localStorage.setItem('luxuryCalendarEvents', JSON.stringify(events));
+        }
+        
+        // Load media items from localStorage
+        function loadMediaItems() {
+            const localData = localStorage.getItem('luxuryCalendarMedia');
+            if (localData) {
+                mediaItems = JSON.parse(localData);
+                mediaItems = mediaItems.map(item => ({
+                    ...item,
+                    thumbnail: item.thumbnail?.startsWith('data:') ? null : item.thumbnail
+                }));
+            }
+        }
+        
+        // --- Functions called from HTML are now attached to the window object to ensure they are globally accessible ---
+        
+        window.showMediaDetails = function(media) {
+            const item = Array.isArray(media) ? media[0] : media;
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.innerHTML = `<div class="modal-content"><button class="close-modal" onclick="this.closest('.modal').remove()">×</button><h3>${item.title}</h3>${item.thumbnail ? `<img src="${item.thumbnail}" style="max-width: 100%; border-radius: 12px; margin: 20px 0;">` : ''}<div style="display: flex; flex-direction: column; gap: 15px;"><div><strong>Brand:</strong> ${item.brand}</div><div><strong>Type:</strong> ${item.type}</div><div><strong>Platforms:</strong> ${item.platforms.join(', ')}</div><div><strong>Publish Date:</strong> ${new Date(item.publishDate).toLocaleDateString()}</div><div><strong>Access:</strong> ${item.access}</div>${item.keywords.length ? `<div><strong>Keywords:</strong> ${item.keywords.join(', ')}</div>` : ''}</div></div>`;
+            document.body.appendChild(modal);
+        }
+        
+        window.handleThumbnailChange = function(event) {
+            const file = event.target.files[0];
+            const fileName = document.getElementById('fileName');
+            if (file) {
+                fileName.textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('thumbnailPreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    preview.dataset.base64 = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                fileName.textContent = 'No file chosen';
+                document.getElementById('thumbnailPreview').style.display = 'none';
+            }
+        }
+        
+        window.handleKeywordInput = function(e) {
+            if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                const input = e.target;
+                const keyword = input.value.trim();
+                if (keyword) {
+                    const el = document.createElement('div');
+                    el.className = 'tag-input-item';
+                    el.innerHTML = `${keyword}<span class="tag-remove" onclick="this.parentElement.remove()">×</span>`;
+                    document.getElementById('mediaKeywordsInput').insertBefore(el, input);
+                    input.value = '';
+                }
+            }
+        }
+        
+        window.focusKeywordInput = function() {
+            document.getElementById('mediaKeywordField').focus();
+        }
+        
+        window.switchView = function(view) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.view-btn[onclick="switchView('${view}')"]`).classList.add('active');
+            document.getElementById('monthView').style.display = view === 'month' ? 'block' : 'none';
+            document.getElementById('weekView').style.display = view === 'week' ? 'block' : 'none';
+            document.getElementById('agendaView').style.display = view === 'agenda' ? 'block' : 'none';
+            document.getElementById('yearView').style.display = view === 'year' ? 'grid' : 'none';
+            renderCurrentView();
+        }
+        
+        function renderCurrentView() {
+            switch(currentView) {
+                case 'month': renderMonthView(); break;
+                case 'week': renderWeekView(); break;
+                case 'agenda': renderAgendaView(); break;
+                case 'year': renderYearView(); break;
+            }
+        }
+        
+        function renderMonthView() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            document.getElementById('monthYear').textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                grid.appendChild(createDayElement(day, month - 1, year, true));
+            }
+            for (let day = 1; day <= daysInMonth; day++) {
+                grid.appendChild(createDayElement(day, month, year, false));
+            }
+            const remainingCells = 42 - grid.children.length;
+            for (let day = 1; day <= remainingCells; day++) {
+                grid.appendChild(createDayElement(day, month + 1, year, true));
+            }
+        }
+        
+        function createDayElement(day, month, year, isOtherMonth) {
+            const dayEl = document.createElement('div');
+            dayEl.className = 'calendar-day';
+            if (isOtherMonth) dayEl.classList.add('other-month');
+            const cellDate = new Date(year, month, day);
+            const dateStr = formatDate(cellDate);
+            if (dateStr === formatDate(new Date())) {
+                dayEl.classList.add('today');
+            }
+            dayEl.innerHTML = `<div class="day-number">${day}</div><div class="day-events"></div>`;
+            const eventsEl = dayEl.querySelector('.day-events');
+            const dayMedia = mediaItems.filter(m => m.publishDate === dateStr);
+            dayMedia.forEach(item => {
+                const mediaEl = document.createElement('div');
+                mediaEl.className = 'media-item';
+                mediaEl.style.backgroundImage = `url(${item.thumbnail})`;
+                mediaEl.onclick = (e) => { e.stopPropagation(); window.showMediaDetails(item); };
+                eventsEl.appendChild(mediaEl);
+            });
+            const dayEvents = getFilteredEvents().filter(e => e.date === dateStr);
+            dayEvents.slice(0, 3).forEach(event => {
+                const eventEl = document.createElement('div');
+                eventEl.className = `event ${event.pillar}`;
+                eventEl.textContent = event.title;
+                eventEl.onclick = (e) => { e.stopPropagation(); /* showEventDetails(event); */ };
+                eventsEl.appendChild(eventEl);
+            });
+            dayEl.onclick = () => { if (!isOtherMonth) window.openAddModal(dateStr); };
+            return dayEl;
+        }
+        
+        window.setTime = function(time) {
+            document.getElementById('eventTime').value = time;
+        }
+        
+        window.insertLink = function() {
+            const url = prompt('Enter URL:');
+            if (url) {
+                document.execCommand('createLink', false, url);
+            }
+        }
+        
+        function getFilteredEvents() {
+            return events.filter(event => {
+                if (!activeFilters.has('all') && !activeFilters.has(event.pillar)) return false;
+                if (searchQuery && !event.title.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+                return true;
+            });
+        }
+        
+        window.toggleFilter = function(filter, el) {
+            if (filter === 'all') {
+                activeFilters.clear();
+                activeFilters.add('all');
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+            } else {
+                activeFilters.delete('all');
+                document.querySelector('.filter-all').classList.remove('active');
+                if (activeFilters.has(filter)) {
+                    activeFilters.delete(filter);
+                } else {
+                    activeFilters.add(filter);
+                }
+            }
+            el.classList.toggle('active');
+            if (activeFilters.size === 0) {
+                activeFilters.add('all');
+                document.querySelector('.filter-all').classList.add('active');
+            }
+            renderCurrentView();
+        }
+        
+        window.searchEvents = function() {
+            searchQuery = document.getElementById('searchInput').value;
+            renderCurrentView();
+        }
+        
+        window.previousMonth = function() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderMonthView();
+        }
+        
+        window.nextMonth = function() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderMonthView();
+        }
+        
+        window.goToToday = function() {
+            currentDate = new Date();
+            renderCurrentView();
+        }
+        
+        window.openAddModal = function(date) {
+            document.getElementById('eventModal').style.display = 'block';
+            document.getElementById('eventForm').reset();
+            document.getElementById('eventDate').value = date || formatDate(new Date());
+            document.getElementById('modalTitle').textContent = 'Add New Event';
+        }
+        
+        window.closeModal = function() {
+            document.getElementById('eventModal').style.display = 'none';
+        }
+        
+        window.openAddMediaModal = function(date) {
+            document.getElementById('mediaModal').style.display = 'block';
+            document.getElementById('mediaForm').reset();
+            document.getElementById('mediaDate').value = date || formatDate(new Date());
+            document.getElementById('fileName').textContent = 'No file chosen';
+            document.getElementById('thumbnailPreview').style.display = 'none';
+            document.getElementById('mediaKeywordsInput').innerHTML = '<input type="text" class="tag-input-field" id="mediaKeywordField" placeholder="Add keywords..." onkeydown="handleKeywordInput(event)">';
+        }
+        
+        window.closeMediaModal = function() {
+            document.getElementById('mediaModal').style.display = 'none';
+        }
+        
+        window.closeBulkModal = function() {
+            document.getElementById('bulkAddModal').style.display = 'none';
+        }
+        
+        window.openBulkAddModal = function() {
+            document.getElementById('bulkAddModal').style.display = 'block';
+        }
+        
+        window.saveEvent = function(e) {
+            e.preventDefault();
+            const event = {
+                id: Date.now(),
+                title: document.getElementById('eventTitle').value,
+                date
