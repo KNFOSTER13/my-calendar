@@ -14,13 +14,13 @@
             --border: rgba(255, 255, 255, 0.08);
             --text: #ffffff;
             --text-muted: rgba(255, 255, 255, 0.5);
-            
+
             /* Purple accent colors */
             --purple-primary: #9B7EED;
             --purple-secondary: #7B5FCD;
             --purple-glow: rgba(155, 126, 237, 0.5);
             --purple-glow-faint: rgba(155, 126, 237, 0.3);
-            
+
             /* Pillar colors - luminous palette */
             --work-color: #FF1493;
             --education-color: #FF6347;
@@ -29,9 +29,9 @@
             --business-color: #00CED1;
             --leisure-color: #4169E1;
             --self-care-color: #C8A2C8; /* Updated from vanity */
-            --wellness-color: #9370DB; /* Updated from health */
+            --wellness-color: #9370DB;  /* Updated from health */
             --home-color: #FF69B4;
-            
+
             /* Spacing scale */
             --space-xs: 0.25rem;
             --space-sm: 0.5rem;
@@ -40,14 +40,24 @@
             --space-xl: 2rem;
             --space-2xl: 3rem;
             --space-3xl: 4rem;
+
+            /* New utility tokens */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+
+            /* Unified glow scale */
+            --glow-color: rgba(155,126,237,0.40);
+            --glow-soft: 0 0 8px var(--glow-color);
+            --glow-medium: 0 0 12px var(--glow-color);
+            --glow-strong: 0 0 20px var(--glow-color);
+
+            /* Focus ring */
+            --focus-ring: 0 0 0 2px rgba(155,126,237,0.70), 0 0 0 6px rgba(155,126,237,0.20);
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             font-weight: 400;
@@ -58,7 +68,12 @@
             overflow-x: hidden;
             font-size: 16px;
         }
-        
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+          * { transition: none !important; animation: none !important; }
+        }
+
         /* Typography */
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Poppins', sans-serif;
@@ -66,14 +81,10 @@
             line-height: 1.2;
             letter-spacing: -0.02em;
         }
-        
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: var(--space-lg);
-        }
-        
-        /* Header -- UPDATED */
+
+        .container { max-width: 1600px; margin: 0 auto; padding: var(--space-lg); }
+
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -82,89 +93,75 @@
             flex-wrap: wrap;
             gap: var(--space-lg);
         }
-        
         .header h1 {
             font-size: 2.5em;
-            font-weight: 500; /* Bolder */
+            font-weight: 500;
             color: var(--text);
             letter-spacing: -0.03em;
         }
-        
-        .header-controls {
-            display: flex;
-            gap: var(--space-md);
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        /* View Switcher -- UPDATED */
+        .header-controls { display: flex; gap: var(--space-md); align-items: center; flex-wrap: wrap; }
+
+        /* View Switcher */
         .view-switcher {
             display: flex;
             background: var(--bg-darker);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             padding: 4px;
             gap: 4px;
             border: 1px solid var(--border);
         }
-        
         .view-btn {
             padding: var(--space-sm) var(--space-lg);
             background: transparent;
             border: none;
             color: var(--text-muted);
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-size: 0.95em;
             font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s ease;
             font-family: 'Inter', sans-serif;
+            box-shadow: var(--glow-soft);
         }
-        
         .view-btn.active {
             background: var(--purple-primary);
             color: white;
-            box-shadow: 0 4px 15px rgba(155, 126, 237, 0.4);
+            box-shadow: var(--glow-strong);
         }
-        
         .view-btn:hover:not(.active) {
             background: rgba(255, 255, 255, 0.05);
             color: var(--text);
+            transform: translateY(-1px);
         }
-        
-        /* Search Bar -- UPDATED with purple glow */
-        .search-bar {
-            position: relative;
-            width: 300px;
-        }
-        
+
+        /* Search Bar */
+        .search-bar { position: relative; width: 300px; }
         .search-input {
             width: 100%;
             padding: var(--space-sm) var(--space-lg) var(--space-sm) var(--space-md);
             background: var(--bg-darker);
             border: 1px solid var(--purple-secondary);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             color: var(--text);
             font-size: 0.95em;
             transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
-            box-shadow: 0 0 8px var(--purple-glow-faint);
+            box-shadow: var(--glow-soft);
         }
-        
         .search-input:focus {
             outline: none;
             border-color: var(--purple-primary);
             background: rgba(255, 255, 255, 0.02);
-            box-shadow: 0 0 12px var(--purple-glow);
+            box-shadow: var(--glow-medium);
         }
-        
-        /* Luxury Filter Pills - UPDATED */
+
+        /* Filter Pills */
         .filter-tags {
             display: flex;
             gap: var(--space-sm);
             flex-wrap: wrap;
             margin-bottom: var(--space-2xl);
         }
-        
         .filter-tag {
             padding: var(--space-sm) var(--space-lg);
             background: var(--bg-darker);
@@ -172,7 +169,7 @@
             border-radius: 50px;
             font-size: 0.9em;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s ease;
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
             color: var(--text-muted);
@@ -180,79 +177,30 @@
             position: relative;
             text-transform: capitalize;
             letter-spacing: 0.02em;
+            /* unified glow system */
+            --glow-color: var(--purple-glow);
+            box-shadow: var(--glow-soft);
         }
-        
-        /* Individual pillar glow effects -- UPDATED */
-        .filter-tag.filter-work:hover,
-        .filter-tag.filter-work.active {
-            border-color: var(--work-color);
-            box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
-            color: white;
+        .filter-tag:hover,
+        .filter-tag.active {
+            color: #fff;
+            border-color: var(--glow-color);
+            box-shadow: var(--glow-medium);
+            background: rgba(255,255,255,0.03);
+            transform: translateY(-1px);
         }
-        
-        .filter-tag.filter-education:hover,
-        .filter-tag.filter-education.active {
-            border-color: var(--education-color);
-            box-shadow: 0 0 15px rgba(255, 99, 71, 0.5);
-            color: white;
-        }
-        
-        .filter-tag.filter-relationships:hover,
-        .filter-tag.filter-relationships.active {
-            border-color: var(--relationships-color);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-            color: white;
-        }
-        
-        .filter-tag.filter-money:hover,
-        .filter-tag.filter-money.active {
-            border-color: var(--money-color);
-            box-shadow: 0 0 15px rgba(0, 255, 127, 0.5);
-            color: white;
-        }
-        
-        .filter-tag.filter-business:hover,
-        .filter-tag.filter-business.active {
-            border-color: var(--business-color);
-            box-shadow: 0 0 15px rgba(0, 206, 209, 0.5);
-            color: white;
-        }
-        
-        .filter-tag.filter-leisure:hover,
-        .filter-tag.filter-leisure.active {
-            border-color: var(--leisure-color);
-            box-shadow: 0 0 15px rgba(65, 105, 225, 0.5);
-            color: white;
-        }
-        
-        .filter-tag.filter-self-care:hover,
-        .filter-tag.filter-self-care.active {
-            border-color: var(--self-care-color);
-            box-shadow: 0 0 15px rgba(200, 162, 200, 0.6);
-            color: white;
-        }
-        
-        .filter-tag.filter-wellness:hover,
-        .filter-tag.filter-wellness.active {
-            border-color: var(--wellness-color);
-            box-shadow: 0 0 15px rgba(147, 112, 219, 0.5);
-            color: white;
-        }
-        
-        .filter-tag.filter-home:hover,
-        .filter-tag.filter-home.active {
-            border-color: var(--home-color);
-            box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
-            color: white;
-        }
-        
-        .filter-tag.filter-all:hover,
-        .filter-tag.filter-all.active {
-            border-color: var(--purple-primary);
-            box-shadow: 0 0 15px var(--purple-glow-faint);
-            color: white;
-        }
-        
+        /* per-pillar glow color only */
+        .filter-work{--glow-color: rgba(255,20,147,0.55);}
+        .filter-education{--glow-color: rgba(255,99,71,0.55);}
+        .filter-relationships{--glow-color: rgba(255,215,0,0.55);}
+        .filter-money{--glow-color: rgba(0,255,127,0.55);}
+        .filter-business{--glow-color: rgba(0,206,209,0.55);}
+        .filter-leisure{--glow-color: rgba(65,105,225,0.55);}
+        .filter-self-care{--glow-color: rgba(200,162,200,0.60);}
+        .filter-wellness{--glow-color: rgba(147,112,219,0.55);}
+        .filter-home{--glow-color: rgba(255,105,180,0.55);}
+        .filter-all{--glow-color: rgba(155,126,237,0.45);}
+
         /* Main Layout */
         .main-layout {
             display: grid;
@@ -260,69 +208,65 @@
             gap: var(--space-xl);
             align-items: start;
         }
-        
+
         /* Calendar Container */
         .calendar-container {
             background: var(--bg-darker);
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             padding: var(--space-xl);
             border: 1px solid var(--border);
         }
-        
-        /* Month View */
+
+        /* Month Nav */
         .month-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: var(--space-xl);
         }
-        
-        /* Default Button Style with Purple Glow -- UPDATED */
+
+        /* Buttons unified */
         .nav-btn, .today-btn {
             background: var(--bg-dark);
             border: 1px solid var(--purple-secondary);
             color: var(--text);
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 8px var(--purple-glow-faint);
+            transition: all 0.25s ease;
+            box-shadow: var(--glow-soft);
         }
-
         .nav-btn:hover, .today-btn:hover {
             background: rgba(255, 255, 255, 0.05);
             border-color: var(--purple-primary);
-            box-shadow: 0 0 12px var(--purple-glow);
+            box-shadow: var(--glow-medium);
+            transform: translateY(-1px);
         }
-
         .nav-btn {
             width: 45px;
             height: 45px;
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             font-size: 1.2em;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        
         .today-btn {
             padding: var(--space-xs) var(--space-md);
             border-radius: 20px;
             font-size: 0.9em;
             font-weight: 500;
         }
-        
         .month-year {
             font-size: 1.8em;
             font-weight: 300;
             font-family: 'Poppins', sans-serif;
         }
-        
+
         .weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: var(--space-sm);
             margin-bottom: var(--space-md);
         }
-        
         .weekday {
             text-align: center;
             font-weight: 500;
@@ -331,64 +275,50 @@
             padding: var(--space-sm) 0;
             font-family: 'Inter', sans-serif;
         }
-        
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: var(--space-sm);
         }
-        
-        /* Calendar Day with Purple Glow -- UPDATED */
+
+        /* Calendar Day unified */
         .calendar-day {
             background: var(--bg-dark);
             border: 1px solid var(--purple-secondary);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             padding: var(--space-sm);
             aspect-ratio: 1 / 1;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 8px var(--purple-glow-faint);
+            box-shadow: var(--glow-soft);
         }
-        
         .calendar-day:hover {
             border-color: var(--purple-primary);
             background: rgba(255, 255, 255, 0.02);
-            box-shadow: 0 0 12px var(--purple-glow);
+            box-shadow: var(--glow-medium);
             transform: translateY(-2px);
         }
-        
         .calendar-day.other-month {
             opacity: 0.3;
             box-shadow: none;
             border-color: var(--border);
         }
-        
         .calendar-day.today {
             background: rgba(155, 126, 237, 0.1);
             border-color: var(--purple-primary);
+            box-shadow: var(--glow-strong);
         }
-        
-        .day-number {
-            font-weight: 500;
-            font-size: 1em;
-            margin-bottom: var(--space-xs);
-        }
-        
+
+        .day-number { font-weight: 500; font-size: 1em; margin-bottom: var(--space-xs); }
         .day-events {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 4px;
-            font-size: 0.75em;
-            flex: 1;
-            overflow: hidden;
-            align-content: flex-start;
+            display: flex; flex-direction: row; flex-wrap: wrap;
+            gap: 4px; font-size: 0.75em; flex: 1; overflow: hidden; align-content: flex-start;
         }
-        
+
         /* Event Pills with pillar colors */
         .event {
             padding: 4px 8px;
@@ -397,125 +327,107 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             font-size: 0.85em;
-            color: white;
+            color: #fff;
+            font-weight: 600; /* improved readability */
+            text-shadow: 0 1px 1px rgba(0,0,0,0.25);
         }
-        
-        .event:hover {
-            transform: scale(1.05);
-            z-index: 10;
-        }
-        
+        .event:hover { transform: scale(1.05); z-index: 10; }
+
         .event.work { background: var(--work-color); }
-        .event.education { background: var(--education-color); color: #333; }
-        .event.relationships { background: var(--relationships-color); color: #333; }
-        .event.money { background: var(--money-color); color: #333; }
+        .event.education { background: var(--education-color); color: #111; text-shadow: none; }
+        .event.relationships { background: var(--relationships-color); color: #111; text-shadow: none; }
+        .event.money { background: var(--money-color); color: #111; text-shadow: none; }
         .event.business { background: var(--business-color); }
         .event.leisure { background: var(--leisure-color); }
-        .event.self-care { background: var(--self-care-color); color: #333; } /* Updated */
-        .event.wellness { background: var(--wellness-color); } /* Updated */
+        .event.self-care { background: var(--self-care-color); color: #111; text-shadow: none; }
+        .event.wellness { background: var(--wellness-color); }
         .event.home { background: var(--home-color); }
-        
-        /* Week View */
+
+        /* Views */
         .week-view { display: none; }
         .week-view.active { display: block; }
         .week-container { display: flex; flex-direction: column; }
-        
-        /* Agenda View */
+
         .agenda-view { display: none; }
         .agenda-view.active { display: block; }
-        
-        /* Year View */
+
         .year-view { display: none; }
         .year-view.active { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); }
-        
+
         /* Sidebar */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-lg);
-        }
-        
+        .sidebar { display: flex; flex-direction: column; gap: var(--space-lg); }
+
         /* Quick Add Section */
         .quick-add {
             background: var(--bg-darker);
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             padding: var(--space-xl);
             border: 1px solid var(--border);
         }
-        
         .quick-add h3, .tags-section h3, .tags-cloud h3, .export-controls h3, .sync-status-widget h3 {
             font-size: 1.1em;
             margin-bottom: var(--space-md);
             font-weight: 500;
             font-family: 'Poppins', sans-serif;
         }
-        
-        .quick-add .add-btn { /* Specific styling for quick add buttons */
+        .quick-add .add-btn {
             width: 100%;
             padding: var(--space-md);
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             margin-top: var(--space-sm);
             font-family: 'Inter', sans-serif;
+            box-shadow: var(--glow-soft);
         }
-        
         .quick-add .add-btn:hover {
             background: rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
-        
-        /* Other sidebar sections */
+
         .sync-status-widget,
         .tags-section,
         .tags-cloud,
         .export-controls {
             background: var(--bg-darker);
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             padding: var(--space-xl);
             border: 1px solid var(--border);
         }
-        
-        /* Modal Styling -- UPDATED */
+
+        /* Modal Styling */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(20px);
             z-index: 1000;
             padding: var(--space-lg);
             overflow-y: auto;
         }
-        
         .modal-content {
-            background: linear-gradient(135deg, #413E59, #222326); /* New Gradient */
+            background: linear-gradient(135deg, #413E59, #222326);
             max-width: 600px;
             margin: 40px auto;
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             padding: var(--space-2xl);
             position: relative;
             border: 1px solid var(--purple-primary);
-            box-shadow: 0 0 40px var(--purple-glow),
-                        inset 0 0 20px rgba(155, 126, 237, 0.1);
+            box-shadow: 0 0 40px var(--purple-glow), inset 0 0 20px rgba(155, 126, 237, 0.1);
             animation: modalGlow 2s ease-in-out infinite alternate;
         }
-        
         @keyframes modalGlow {
             from { box-shadow: 0 0 40px var(--purple-glow), inset 0 0 20px rgba(155, 126, 237, 0.1); }
             to { box-shadow: 0 0 60px var(--purple-glow), inset 0 0 30px rgba(155, 126, 237, 0.15); }
         }
-        
         .modal h3 {
             font-size: 1.6em;
             margin-bottom: var(--space-xl);
@@ -526,36 +438,24 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-        
         .close-modal {
             position: absolute;
             top: var(--space-md);
             right: var(--space-md);
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border-radius: 50%;
             font-size: 1.4em;
             cursor: pointer;
             color: var(--text-muted);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: all 0.25s ease;
+            display: flex; align-items: center; justify-content: center;
         }
-        
-        .close-modal:hover {
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(90deg);
-        }
-        
+        .close-modal:hover { color: var(--text); background: rgba(255, 255, 255, 0.1); transform: rotate(90deg); }
+
         /* Form elements with purple accents */
-        .form-group {
-            margin-bottom: var(--space-lg);
-        }
-        
+        .form-group { margin-bottom: var(--space-lg); }
         .form-group label {
             display: block;
             font-size: 0.85em;
@@ -566,7 +466,6 @@
             letter-spacing: 0.05em;
             font-family: 'Inter', sans-serif;
         }
-        
         input, select, textarea {
             width: 100%;
             padding: var(--space-md);
@@ -578,49 +477,35 @@
             font-size: 0.95em;
             transition: all 0.3s ease;
         }
-        
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--purple-primary);
             background: rgba(25, 25, 40, 0.9);
             box-shadow: 0 0 20px rgba(155, 126, 237, 0.3);
         }
-        
-        /* Solid Purple buttons with NEW gradient */
+
+        /* Solid Purple buttons */
         .modal-content .add-btn, .media-save-btn {
             width: 100%;
             padding: var(--space-md) var(--space-xl);
             background: linear-gradient(135deg, #9681ED, #7759CA);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             font-weight: 600;
             font-size: 1em;
             letter-spacing: 0.05em;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             margin-top: var(--space-lg);
             text-transform: uppercase;
             box-shadow: 0 0 25px rgba(132, 106, 232, 0.5);
         }
-        
-        .modal-content .add-btn:hover, .media-save-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 30px rgba(132, 106, 232, 0.7);
-        }
-        
-        .modal-content .add-btn:active, .media-save-btn:active {
-            transform: translateY(0);
-        }
-        
+        .modal-content .add-btn:hover, .media-save-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 30px rgba(132, 106, 232, 0.7); }
+        .modal-content .add-btn:active, .media-save-btn:active { transform: translateY(0); }
+
         /* Time preset buttons */
-        .time-presets {
-            display: flex;
-            gap: var(--space-xs);
-            margin-top: var(--space-xs);
-            flex-wrap: wrap;
-        }
-        
+        .time-presets { display: flex; gap: var(--space-xs); margin-top: var(--space-xs); flex-wrap: wrap; }
         .time-preset {
             padding: 6px 12px;
             background: rgba(155, 126, 237, 0.2);
@@ -631,14 +516,9 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        
-        .time-preset:hover {
-            background: rgba(155, 126, 237, 0.3);
-            border-color: var(--purple-primary);
-            transform: scale(1.05);
-        }
-        
-        /* The rest of the CSS remains the same... */
+        .time-preset:hover { background: rgba(155, 126, 237, 0.3); border-color: var(--purple-primary); transform: scale(1.05); }
+
+        /* Tag inputs, media bits, scrollbars */
         #eventPillar option { background: var(--bg-darker); color: var(--text); padding: var(--space-sm); }
         #eventPillar option:hover { background: rgba(255, 255, 255, 0.1); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
@@ -650,11 +530,11 @@
         .rich-editor { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; transition: all 0.3s ease; }
         .rich-editor:focus-within { border-color: rgba(255, 255, 255, 0.3); }
         .editor-toolbar { display: flex; gap: var(--space-xs); padding: var(--space-sm); border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.2); }
-        .editor-btn { width: 35px; height: 35px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text); transition: all 0.2s ease; font-weight: 600; }
+        .editor-btn { width: 35px; height: 35px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text); transition: all 0.2s ease; font-weight: 600; }
         .editor-btn:hover { background: rgba(255, 255, 255, 0.1); }
         .editor-content { min-height: 150px; padding: var(--space-md); color: var(--text); font-size: 0.95em; }
         .editor-content:focus { outline: none; }
-        .sync-indicator { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) var(--space-md); background: var(--bg-dark); border-radius: 8px; font-size: 0.9em; }
+        .sync-indicator { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) var(--space-md); background: var(--bg-dark); border-radius: var(--radius-sm); font-size: 0.9em; }
         .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--money-color); animation: pulse 2s ease-in-out infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
         .platforms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: var(--space-sm) 0; }
@@ -675,27 +555,49 @@
         .media-indicator { display: inline-block; width: 24px; height: 24px; border-radius: 4px; overflow: hidden; cursor: pointer; transition: transform 0.3s ease; border: 1px solid rgba(155, 126, 237, 0.5); margin-right: 3px; position: relative; }
         .media-indicator img { width: 100%; height: 100%; object-fit: cover; }
         .media-indicator:hover { transform: scale(3); z-index: 100; box-shadow: 0 0 20px rgba(155, 126, 237, 0.8); }
-        .media-details-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1A1A2E, #16213E); border: 1px solid var(--purple-primary); border-radius: 20px; padding: var(--space-xl); box-shadow: 0 0 60px var(--purple-glow), inset 0 0 30px rgba(155, 126, 237, 0.15); z-index: 1001; min-width: 400px; max-width: 500px; animation: modalGlow 2s ease-in-out infinite alternate; }
+        .media-details-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1A1A2E, #16213E); border: 1px solid var(--purple-primary); border-radius: var(--radius-lg); padding: var(--space-xl); box-shadow: 0 0 60px var(--purple-glow), inset 0 0 30px rgba(155, 126, 237, 0.15); z-index: 1001; min-width: 400px; max-width: 500px; animation: modalGlow 2s ease-in-out infinite alternate; }
         .media-details-header { text-align: center; margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 1px solid rgba(155, 126, 237, 0.3); }
         .media-details-title { font-size: 1.8em; font-weight: 300; color: var(--purple-primary); text-transform: uppercase; letter-spacing: 0.1em; }
         .media-details-close { position: absolute; top: var(--space-md); right: var(--space-md); width: 30px; height: 30px; background: rgba(255, 255, 255, 0.1); border: none; border-radius: 50%; color: var(--text); cursor: pointer; font-size: 1.2em; transition: all 0.3s ease; }
         .media-details-close:hover { background: var(--purple-primary); transform: rotate(90deg); }
         .media-thumbnail-large { width: 100%; max-height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: var(--space-lg); border: 2px solid rgba(155, 126, 237, 0.3); }
-        .media-detail-row { display: flex; align-items: flex-start; gap: var(--space-md); margin-bottom: var(--space-md); }
-        .media-detail-label { font-size: 0.85em; color: var(--purple-primary); min-width: 100px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .media-detail-value { color: var(--text); flex: 1; }
-        .media-detail-link { color: var(--purple-primary); text-decoration: none; transition: all 0.3s ease; }
-        .media-detail-link:hover { color: var(--text); text-decoration: underline; }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--bg-darker); color: white; padding: var(--space-md) var(--space-xl); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); z-index: 2000; animation: slideInUp 0.3s ease-out; font-weight: 500; }
+
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--bg-darker); color: white; padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); z-index: 2000; animation: slideInUp 0.3s ease-out; font-weight: 500; }
         @keyframes slideInUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .media-item { width: 20px; height: 20px; border-radius: 4px; background-size: cover; background-position: center; border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer; transition: transform 0.2s ease; }
-        .media-item:hover { transform: scale(2.5); z-index: 20; }
+
+        /* Scrollbars */
         ::-webkit-scrollbar { width: 10px; height: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg-darker); }
         ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
-        @media (max-width: 1200px) { .main-layout { grid-template-columns: 1fr; } .sidebar { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-lg); } }
-        @media (max-width: 768px) { .filter-tags { flex-direction: column; } .filter-tag { width: 100%; } }
+
+        /* Accessibility: focus ring for interactive controls */
+        button, [role="button"], .filter-tag, .view-btn, .nav-btn, .today-btn, .search-input, input, select, textarea { outline: none; }
+        button:focus-visible,
+        [role="button"]:focus-visible,
+        .filter-tag:focus-visible,
+        .view-btn:focus-visible,
+        .nav-btn:focus-visible,
+        .today-btn:focus-visible,
+        .search-input:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible { box-shadow: var(--focus-ring); border-color: var(--purple-primary) !important; }
+
+        /* Responsive tweaks */
+        @media (max-width: 1200px) {
+          .main-layout { grid-template-columns: 1fr; }
+          .sidebar { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-lg); }
+        }
+        @media (max-width: 768px) {
+          .filter-tags {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: var(--space-sm);
+          }
+          .filter-tag { flex: 0 0 auto; }
+        }
     </style>
 </head>
 <body>
@@ -703,53 +605,53 @@
         <div class="header">
             <h1>✨ Kimberly's Calendar</h1>
             <div class="header-controls">
-                <div class="view-switcher">
-                    <button class="view-btn active" onclick="switchView('month')">Month</button>
-                    <button class="view-btn" onclick="switchView('week')">Week</button>
-                    <button class="view-btn" onclick="switchView('agenda')">Agenda</button>
-                    <button class="view-btn" onclick="switchView('year')">Year</button>
+                <div class="view-switcher" role="tablist" aria-label="View switcher">
+                    <button class="view-btn active" onclick="switchView('month')" aria-selected="true" aria-label="Month view">Month</button>
+                    <button class="view-btn" onclick="switchView('week')" aria-selected="false" aria-label="Week view">Week</button>
+                    <button class="view-btn" onclick="switchView('agenda')" aria-selected="false" aria-label="Agenda view">Agenda</button>
+                    <button class="view-btn" onclick="switchView('year')" aria-selected="false" aria-label="Year view">Year</button>
                 </div>
                 <div class="search-bar">
-                    <input type="text" class="search-input" id="searchInput" placeholder="Search events, tags, people..." oninput="searchEvents()">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search events, tags, people..." oninput="searchEvents()" aria-label="Search events">
                 </div>
             </div>
         </div>
-        
-        <div class="filter-tags" id="filterTags">
-            <div class="filter-tag filter-all active" onclick="toggleFilter('all', this)">All Events</div>
-            <div class="filter-tag filter-work" onclick="toggleFilter('work', this)">Work</div>
-            <div class="filter-tag filter-education" onclick="toggleFilter('education', this)">Education</div>
-            <div class="filter-tag filter-relationships" onclick="toggleFilter('relationships', this)">Relationships</div>
-            <div class="filter-tag filter-money" onclick="toggleFilter('money', this)">Money</div>
-            <div class="filter-tag filter-business" onclick="toggleFilter('business', this)">Business</div>
-            <div class="filter-tag filter-leisure" onclick="toggleFilter('leisure', this)">Leisure</div>
-            <div class="filter-tag filter-self-care" onclick="toggleFilter('self-care', this)">Self-Care</div>
-            <div class="filter-tag filter-wellness" onclick="toggleFilter('wellness', this)">Wellness</div>
-            <div class="filter-tag filter-home" onclick="toggleFilter('home', this)">Home</div>
+
+        <div class="filter-tags" id="filterTags" role="tablist" aria-label="Pillars">
+            <div class="filter-tag filter-all active" onclick="toggleFilter('all', this)" role="tab" aria-selected="true" tabindex="0">All Events</div>
+            <div class="filter-tag filter-work" onclick="toggleFilter('work', this)" role="tab" aria-selected="false" tabindex="0">Work</div>
+            <div class="filter-tag filter-education" onclick="toggleFilter('education', this)" role="tab" aria-selected="false" tabindex="0">Education</div>
+            <div class="filter-tag filter-relationships" onclick="toggleFilter('relationships', this)" role="tab" aria-selected="false" tabindex="0">Relationships</div>
+            <div class="filter-tag filter-money" onclick="toggleFilter('money', this)" role="tab" aria-selected="false" tabindex="0">Money</div>
+            <div class="filter-tag filter-business" onclick="toggleFilter('business', this)" role="tab" aria-selected="false" tabindex="0">Business</div>
+            <div class="filter-tag filter-leisure" onclick="toggleFilter('leisure', this)" role="tab" aria-selected="false" tabindex="0">Leisure</div>
+            <div class="filter-tag filter-self-care" onclick="toggleFilter('self-care', this)" role="tab" aria-selected="false" tabindex="0">Self-Care</div>
+            <div class="filter-tag filter-wellness" onclick="toggleFilter('wellness', this)" role="tab" aria-selected="false" tabindex="0">Wellness</div>
+            <div class="filter-tag filter-home" onclick="toggleFilter('home', this)" role="tab" aria-selected="false" tabindex="0">Home</div>
         </div>
-        
+
         <div class="main-layout">
             <div class="calendar-container">
                 <div id="monthView" class="month-view active">
                     <div class="month-nav">
-                        <button class="nav-btn" onclick="previousMonth()">‹</button>
+                        <button class="nav-btn" onclick="previousMonth()" aria-label="Previous month">‹</button>
                         <div style="display: flex; align-items: center; gap: var(--space-md);">
-                            <div class="month-year" id="monthYear">January 2025</div>
-                            <button class="today-btn" onclick="goToToday()">Today</button>
+                            <div class="month-year" id="monthYear" aria-live="polite">January 2025</div>
+                            <button class="today-btn" onclick="goToToday()" aria-label="Go to today">Today</button>
                         </div>
-                        <button class="nav-btn" onclick="nextMonth()">›</button>
+                        <button class="nav-btn" onclick="nextMonth()" aria-label="Next month">›</button>
                     </div>
-                    <div class="weekdays">
+                    <div class="weekdays" aria-hidden="true">
                         <div class="weekday">Sun</div><div class="weekday">Mon</div><div class="weekday">Tue</div><div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div><div class="weekday">Sat</div>
                     </div>
                     <div class="calendar-grid" id="calendarGrid"></div>
                 </div>
-                
+
                 <div id="weekView" class="week-view"></div>
                 <div id="agendaView" class="agenda-view"></div>
                 <div id="yearView" class="year-view"></div>
             </div>
-            
+
             <div class="sidebar">
                 <div class="quick-add">
                     <h3>Quick Add</h3>
@@ -757,14 +659,25 @@
                     <button class="add-btn" onclick="openAddMediaModal()">+ Add New Media</button>
                     <button class="add-btn" onclick="openBulkAddModal()">+ Add Multiple Events</button>
                 </div>
-                
-                <div class="sync-status-widget"><h3>Cloud Sync</h3><div class="sync-indicator"><span class="sync-dot" id="syncDot"></span><span class="sync-text" id="syncText">Checking connection...</span></div></div>
+
+                <div class="sync-status-widget">
+                  <h3>Cloud Sync</h3>
+                  <div class="sync-indicator"><span class="sync-dot" id="syncDot"></span><span class="sync-text" id="syncText">Checking connection...</span></div>
+                </div>
                 <div class="tags-cloud"><h3>Popular Tags</h3><div class="tag-list" id="tagCloud"></div></div>
-                <div class="export-controls"><h3>Export & Print</h3><div class="export-buttons"><button class="export-btn" onclick="printCalendar()">Print</button><button class="export-btn" onclick="exportToCSV()">CSV</button><button class="export-btn" onclick="exportToJSON()">JSON</button></div></div>
+                <div class="export-controls">
+                  <h3>Export & Print</h3>
+                  <div class="export-buttons">
+                    <button class="export-btn add-btn" onclick="printCalendar()">Print</button>
+                    <button class="export-btn add-btn" onclick="exportToCSV()">CSV</button>
+                    <button class="export-btn add-btn" onclick="exportToJSON()">JSON</button>
+                  </div>
+                </div>
             </div>
         </div>
     </div>
-    
+
+    <!-- Add Event Modal -->
     <div class="modal" id="eventModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal()">×</button>
@@ -774,17 +687,42 @@
                 <div class="form-group"><label>What? (Event Title)</label><input type="text" id="eventTitle" required></div>
                 <div class="form-row">
                     <div class="form-group"><label>When? (Date)</label><input type="date" id="eventDate" required></div>
-                    <div class="form-group"><label>Duration</label><select id="eventDuration"><option value="30">30 minutes</option><option value="60" selected>1 hour</option><option value="90">1.5 hours</option><option value="120">2 hours</option><option value="180">3 hours</option><option value="240">4 hours</option><option value="480">All day</option></select></div>
+                    <div class="form-group">
+                      <label>Duration</label>
+                      <select id="eventDuration">
+                        <option value="30">30 minutes</option>
+                        <option value="60" selected>1 hour</option>
+                        <option value="90">1.5 hours</option>
+                        <option value="120">2 hours</option>
+                        <option value="180">3 hours</option>
+                        <option value="240">4 hours</option>
+                        <option value="480">All day</option>
+                      </select>
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Start Time</label><input type="time" id="eventTime">
-                        <div class="time-presets"><button type="button" class="time-preset" onclick="setTime('09:00')">9 AM</button><button type="button" class="time-preset" onclick="setTime('12:00')">Noon</button><button type="button" class="time-preset" onclick="setTime('15:00')">3 PM</button><button type="button" class="time-preset" onclick="setTime('18:00')">6 PM</button></div>
+                        <label>Start Time</label>
+                        <input type="time" id="eventTime">
+                        <div class="time-presets">
+                          <button type="button" class="time-preset" onclick="setTime('09:00')">9 AM</button>
+                          <button type="button" class="time-preset" onclick="setTime('12:00')">Noon</button>
+                          <button type="button" class="time-preset" onclick="setTime('15:00')">3 PM</button>
+                          <button type="button" class="time-preset" onclick="setTime('18:00')">6 PM</button>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Pillar</label>
                         <select id="eventPillar" required>
-                            <option value="work">Work</option><option value="education">Education</option><option value="relationships">Relationships</option><option value="money">Money</option><option value="business">Business</option><option value="leisure">Leisure</option><option value="self-care">Self-Care</option><option value="wellness">Wellness</option><option value="home">Home</option>
+                            <option value="work">Work</option>
+                            <option value="education">Education</option>
+                            <option value="relationships">Relationships</option>
+                            <option value="money">Money</option>
+                            <option value="business">Business</option>
+                            <option value="leisure">Leisure</option>
+                            <option value="self-care">Self-Care</option>
+                            <option value="wellness">Wellness</option>
+                            <option value="home">Home</option>
                         </select>
                     </div>
                 </div>
@@ -792,17 +730,28 @@
                 <div class="form-group"><label>Who? (People Involved)</label><input type="text" id="eventWho" placeholder="Who's involved?"></div>
                 <div class="form-group">
                     <label>Why? (Purpose/Context)</label>
-                    <div class="rich-editor"><div class="editor-toolbar"><button type="button" class="editor-btn" onclick="formatText('bold')"><b>B</b></button><button type="button" class="editor-btn" onclick="formatText('italic')"><i>I</i></button><button type="button" class="editor-btn" onclick="formatText('underline')"><u>U</u></button><button type="button" class="editor-btn" onclick="insertLink()">🔗</button></div><div class="editor-content" id="eventWhy" contenteditable="true"></div></div>
+                    <div class="rich-editor">
+                      <div class="editor-toolbar">
+                        <button type="button" class="editor-btn" onclick="formatText('bold')"><b>B</b></button>
+                        <button type="button" class="editor-btn" onclick="formatText('italic')"><i>I</i></button>
+                        <button type="button" class="editor-btn" onclick="formatText('underline')"><u>U</u></button>
+                        <button type="button" class="editor-btn" onclick="insertLink()">🔗</button>
+                      </div>
+                      <div class="editor-content" id="eventWhy" contenteditable="true"></div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Tags</label>
-                    <div class="tags-input" id="tagsInput" onclick="focusTagInput()"><input type="text" class="tag-input-field" id="tagInputField" placeholder="Add tags..." onkeydown="handleTagInput(event)"></div>
+                    <div class="tags-input" id="tagsInput" onclick="focusTagInput()">
+                      <input type="text" class="tag-input-field" id="tagInputField" placeholder="Add tags..." onkeydown="handleTagInput(event)">
+                    </div>
                 </div>
                 <button type="submit" class="add-btn">Save Event</button>
             </form>
         </div>
     </div>
-    
+
+    <!-- Media Modal -->
     <div class="modal" id="mediaModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeMediaModal()">×</button>
@@ -810,13 +759,43 @@
             <form id="mediaForm" onsubmit="saveMediaItem(event)">
                 <div class="form-group"><label>Content Title</label><input type="text" id="mediaTitle" required></div>
                 <div class="form-row">
-                    <div class="form-group"><label>Brand</label><select id="mediaBrand" required><option value="knf">KNF</option><option value="for_harriet">For Harriet</option><option value="shallow_side">The Shallow Side</option><option value="making_things">Making Things is Hard</option><option value="taste_of_kimberly">Taste of Kimberly</option><option value="kimberly_thoughts">Kimberly Has Thoughts</option></select></div>
-                    <div class="form-group"><label>Content Type</label><select id="mediaType" required><option value="video">Video</option><option value="text">Text</option><option value="image">Image</option><option value="graphic">Graphic</option><option value="audio">Audio</option><option value="live">Live</option><option value="curation">Curation</option></select></div>
+                    <div class="form-group">
+                      <label>Brand</label>
+                      <select id="mediaBrand" required>
+                        <option value="knf">KNF</option>
+                        <option value="for_harriet">For Harriet</option>
+                        <option value="shallow_side">The Shallow Side</option>
+                        <option value="making_things">Making Things is Hard</option>
+                        <option value="taste_of_kimberly">Taste of Kimberly</option>
+                        <option value="kimberly_thoughts">Kimberly Has Thoughts</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Content Type</label>
+                      <select id="mediaType" required>
+                        <option value="video">Video</option>
+                        <option value="text">Text</option>
+                        <option value="image">Image</option>
+                        <option value="graphic">Graphic</option>
+                        <option value="audio">Audio</option>
+                        <option value="live">Live</option>
+                        <option value="curation">Curation</option>
+                      </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Platform(s)</label>
                     <div class="platforms-grid">
-                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="Facebook"><span>Facebook</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Instagram"><span>Instagram</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="LinkedIn"><span>LinkedIn</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Pinterest"><span>Pinterest</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Reddit"><span>Reddit</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Substack"><span>Substack</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Threads"><span>Threads</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="TikTok"><span>TikTok</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="Twitter"><span>Twitter</span></label><label class="platform-checkbox"><input type="checkbox" name="platform" value="YouTube"><span>YouTube</span></label>
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="Facebook"><span>Facebook</span></label>
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="Instagram"><span>Instagram</span></label>
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="LinkedIn"><span>LinkedIn</span></label>
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="Pinterest"><span>Pinterest</span></label>
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="Reddit"><span>Reddit</span></label>
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="Substack"><span>Substack</span></label>
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="Threads"><span>Threads</span></label>
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="TikTok"><span>TikTok</span></label>
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="Twitter"><span>Twitter</span></label>
+                        <label class="platform-checkbox"><input type="checkbox" name="platform" value="YouTube"><span>YouTube</span></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -825,25 +804,41 @@
                 </div>
                 <div class="form-group">
                     <label>Thumbnail</label>
-                    <div class="file-upload-wrapper"><input type="file" id="mediaThumbnail" accept="image/*" onchange="handleThumbnailChange(event)"><label for="mediaThumbnail" class="file-upload-label"><span id="fileLabel">Choose File</span><span id="fileName">No file chosen</span></label></div>
+                    <div class="file-upload-wrapper">
+                      <input type="file" id="mediaThumbnail" accept="image/*" onchange="handleThumbnailChange(event)">
+                      <label for="mediaThumbnail" class="file-upload-label"><span id="fileLabel">Choose File</span><span id="fileName">No file chosen</span></label>
+                    </div>
                     <img id="thumbnailPreview" src="" alt="Thumbnail Preview" style="max-width: 100px; border-radius: 8px; margin-top: 10px; display: none;">
                 </div>
                 <div class="form-group"><label>Content Link (after published)</label><input type="url" id="mediaContentLink" placeholder="https://example.com/your-content"></div>
                 <div class="form-group">
                     <label>Keywords</label>
-                    <div class="tags-input" id="mediaKeywordsInput" onclick="focusKeywordInput()"><input type="text" class="tag-input-field" id="mediaKeywordField" placeholder="Add keywords..." onkeydown="handleKeywordInput(event)"></div>
+                    <div class="tags-input" id="mediaKeywordsInput" onclick="focusKeywordInput()">
+                      <input type="text" class="tag-input-field" id="mediaKeywordField" placeholder="Add keywords..." onkeydown="handleKeywordInput(event)">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Access</label>
-                    <div class="access-options"><label class="access-radio"><input type="radio" name="mediaAccess" value="free" checked><span>Free</span></label><label class="access-radio"><input type="radio" name="mediaAccess" value="paywalled"><span>Paywalled</span></label></div>
+                    <div class="access-options">
+                      <label class="access-radio"><input type="radio" name="mediaAccess" value="free" checked><span>Free</span></label>
+                      <label class="access-radio"><input type="radio" name="mediaAccess" value="paywalled"><span>Paywalled</span></label>
+                    </div>
                 </div>
                 <button type="submit" class="media-save-btn">SAVE MEDIA</button>
             </form>
         </div>
     </div>
-    
-    <div class="modal" id="bulkAddModal"><div class="modal-content"><button class="close-modal" onclick="closeBulkModal()">×</button><h3>Add Multiple Events</h3><div id="bulkEventsList"></div><button class="add-btn" onclick="saveBulkEvents()">Save All Events</button></div></div>
-    
+
+    <!-- Bulk Add Modal -->
+    <div class="modal" id="bulkAddModal">
+      <div class="modal-content">
+        <button class="close-modal" onclick="closeBulkModal()">×</button>
+        <h3>Add Multiple Events</h3>
+        <div id="bulkEventsList"></div>
+        <button class="add-btn" onclick="saveBulkEvents()">Save All Events</button>
+      </div>
+    </div>
+
     <script>
         // State
         let currentView = 'month';
@@ -852,28 +847,29 @@
         let mediaItems = [];
         let activeFilters = new Set(['all']);
         let searchQuery = '';
-        
+
         // Initialize
         function init() {
             loadEvents();
             loadMediaItems();
+            switchView('month');
             renderCurrentView();
+            // keyboard support on pills
+            document.querySelectorAll('.filter-tag').forEach(tag=>{
+              tag.addEventListener('keydown', e=>{
+                if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); tag.click(); }
+              });
+            });
         }
-        
-        // Load events from localStorage
+
+        // Storage helpers
         function loadEvents() {
             const localData = localStorage.getItem('luxuryCalendarEvents');
-            if (localData) {
-                events = JSON.parse(localData);
-            }
+            if (localData) { events = JSON.parse(localData); }
         }
-        
-        // Save events to localStorage
         function saveEventsToStorage() {
             localStorage.setItem('luxuryCalendarEvents', JSON.stringify(events));
         }
-        
-        // Load media items from localStorage
         function loadMediaItems() {
             const localData = localStorage.getItem('luxuryCalendarMedia');
             if (localData) {
@@ -884,18 +880,38 @@
                 }));
             }
         }
-        
-        // --- Functions called from HTML are now attached to the window object to ensure they are globally accessible ---
-        
+        function saveMediaItemsMinimal() {
+            const minimalItems = mediaItems.map(item => ({
+              ...item,
+              thumbnail: item.thumbnail?.startsWith('data:image') ? createColorPlaceholder() : item.thumbnail
+            }));
+            localStorage.setItem('luxuryCalendarMedia', JSON.stringify(minimalItems));
+        }
+
+        // Media details modal
         window.showMediaDetails = function(media) {
             const item = Array.isArray(media) ? media[0] : media;
             const modal = document.createElement('div');
             modal.className = 'modal';
             modal.style.display = 'block';
-            modal.innerHTML = `<div class="modal-content"><button class="close-modal" onclick="this.closest('.modal').remove()">×</button><h3>${item.title}</h3>${item.thumbnail ? `<img src="${item.thumbnail}" style="max-width: 100%; border-radius: 12px; margin: 20px 0;">` : ''}<div style="display: flex; flex-direction: column; gap: 15px;"><div><strong>Brand:</strong> ${item.brand}</div><div><strong>Type:</strong> ${item.type}</div><div><strong>Platforms:</strong> ${item.platforms.join(', ')}</div><div><strong>Publish Date:</strong> ${new Date(item.publishDate).toLocaleDateString()}</div><div><strong>Access:</strong> ${item.access}</div>${item.keywords.length ? `<div><strong>Keywords:</strong> ${item.keywords.join(', ')}</div>` : ''}</div></div>`;
+            modal.innerHTML = `
+              <div class="modal-content">
+                <button class="close-modal" onclick="this.closest('.modal').remove()">×</button>
+                <h3>${item.title}</h3>
+                ${item.thumbnail ? `<img src="${item.thumbnail}" style="max-width: 100%; border-radius: 12px; margin: 20px 0;">` : ''}
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                  <div><strong>Brand:</strong> ${item.brand}</div>
+                  <div><strong>Type:</strong> ${item.type}</div>
+                  <div><strong>Platforms:</strong> ${item.platforms.join(', ')}</div>
+                  <div><strong>Publish Date:</strong> ${new Date(item.publishDate).toLocaleDateString()}</div>
+                  <div><strong>Access:</strong> ${item.access}</div>
+                  ${item.keywords.length ? `<div><strong>Keywords:</strong> ${item.keywords.join(', ')}</div>` : ''}
+                </div>
+              </div>`;
             document.body.appendChild(modal);
-        }
-        
+        };
+
+        // Thumbnail preview
         window.handleThumbnailChange = function(event) {
             const file = event.target.files[0];
             const fileName = document.getElementById('fileName');
@@ -907,14 +923,15 @@
                     preview.src = e.target.result;
                     preview.style.display = 'block';
                     preview.dataset.base64 = e.target.result;
-                }
+                };
                 reader.readAsDataURL(file);
             } else {
                 fileName.textContent = 'No file chosen';
                 document.getElementById('thumbnailPreview').style.display = 'none';
             }
-        }
-        
+        };
+
+        // Keyword chips
         window.handleKeywordInput = function(e) {
             if (e.key === 'Enter' || e.key === ',') {
                 e.preventDefault();
@@ -928,23 +945,22 @@
                     input.value = '';
                 }
             }
-        }
-        
-        window.focusKeywordInput = function() {
-            document.getElementById('mediaKeywordField').focus();
-        }
-        
+        };
+        window.focusKeywordInput = function() { document.getElementById('mediaKeywordField').focus(); };
+
+        // View switching
         window.switchView = function(view) {
             currentView = view;
             document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.view-btn[onclick="switchView('${view}')"]`).classList.add('active');
+            const btn = document.querySelector(`.view-btn[onclick="switchView('${view}')"]`);
+            if (btn) btn.classList.add('active');
             document.getElementById('monthView').style.display = view === 'month' ? 'block' : 'none';
             document.getElementById('weekView').style.display = view === 'week' ? 'block' : 'none';
             document.getElementById('agendaView').style.display = view === 'agenda' ? 'block' : 'none';
             document.getElementById('yearView').style.display = view === 'year' ? 'grid' : 'none';
             renderCurrentView();
-        }
-        
+        };
+
         function renderCurrentView() {
             switch(currentView) {
                 case 'month': renderMonthView(); break;
@@ -953,286 +969,10 @@
                 case 'year': renderYearView(); break;
             }
         }
-        
+
         function renderMonthView() {
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
             document.getElementById('monthYear').textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const daysInPrevMonth = new Date(year, month, 0).getDate();
-            const grid = document.getElementById('calendarGrid');
-            grid.innerHTML = '';
-            for (let i = firstDay - 1; i >= 0; i--) {
-                const day = daysInPrevMonth - i;
-                grid.appendChild(createDayElement(day, month - 1, year, true));
-            }
-            for (let day = 1; day <= daysInMonth; day++) {
-                grid.appendChild(createDayElement(day, month, year, false));
-            }
-            const remainingCells = 42 - grid.children.length;
-            for (let day = 1; day <= remainingCells; day++) {
-                grid.appendChild(createDayElement(day, month + 1, year, true));
-            }
-        }
-        
-        function createDayElement(day, month, year, isOtherMonth) {
-            const dayEl = document.createElement('div');
-            dayEl.className = 'calendar-day';
-            if (isOtherMonth) dayEl.classList.add('other-month');
-            const cellDate = new Date(year, month, day);
-            const dateStr = formatDate(cellDate);
-            if (dateStr === formatDate(new Date())) {
-                dayEl.classList.add('today');
-            }
-            dayEl.innerHTML = `<div class="day-number">${day}</div><div class="day-events"></div>`;
-            const eventsEl = dayEl.querySelector('.day-events');
-            const dayMedia = mediaItems.filter(m => m.publishDate === dateStr);
-            dayMedia.forEach(item => {
-                const mediaEl = document.createElement('div');
-                mediaEl.className = 'media-item';
-                mediaEl.style.backgroundImage = `url(${item.thumbnail})`;
-                mediaEl.onclick = (e) => { e.stopPropagation(); window.showMediaDetails(item); };
-                eventsEl.appendChild(mediaEl);
-            });
-            const dayEvents = getFilteredEvents().filter(e => e.date === dateStr);
-            dayEvents.slice(0, 3).forEach(event => {
-                const eventEl = document.createElement('div');
-                eventEl.className = `event ${event.pillar}`;
-                eventEl.textContent = event.title;
-                eventEl.onclick = (e) => { e.stopPropagation(); /* showEventDetails(event); */ };
-                eventsEl.appendChild(eventEl);
-            });
-            dayEl.onclick = () => { if (!isOtherMonth) window.openAddModal(dateStr); };
-            return dayEl;
-        }
-        
-        window.setTime = function(time) {
-            document.getElementById('eventTime').value = time;
-        }
-        
-        window.insertLink = function() {
-            const url = prompt('Enter URL:');
-            if (url) {
-                document.execCommand('createLink', false, url);
-            }
-        }
-        
-        function getFilteredEvents() {
-            return events.filter(event => {
-                if (!activeFilters.has('all') && !activeFilters.has(event.pillar)) return false;
-                if (searchQuery && !event.title.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-                return true;
-            });
-        }
-        
-        window.toggleFilter = function(filter, el) {
-            if (filter === 'all') {
-                activeFilters.clear();
-                activeFilters.add('all');
-                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
-            } else {
-                activeFilters.delete('all');
-                document.querySelector('.filter-all').classList.remove('active');
-                if (activeFilters.has(filter)) {
-                    activeFilters.delete(filter);
-                } else {
-                    activeFilters.add(filter);
-                }
-            }
-            el.classList.toggle('active');
-            if (activeFilters.size === 0) {
-                activeFilters.add('all');
-                document.querySelector('.filter-all').classList.add('active');
-            }
-            renderCurrentView();
-        }
-        
-        window.searchEvents = function() {
-            searchQuery = document.getElementById('searchInput').value;
-            renderCurrentView();
-        }
-        
-        window.previousMonth = function() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderMonthView();
-        }
-        
-        window.nextMonth = function() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderMonthView();
-        }
-        
-        window.goToToday = function() {
-            currentDate = new Date();
-            renderCurrentView();
-        }
-        
-        window.openAddModal = function(date) {
-            document.getElementById('eventModal').style.display = 'block';
-            document.getElementById('eventForm').reset();
-            document.getElementById('eventDate').value = date || formatDate(new Date());
-            document.getElementById('modalTitle').textContent = 'Add New Event';
-        }
-        
-        window.closeModal = function() {
-            document.getElementById('eventModal').style.display = 'none';
-        }
-        
-        window.openAddMediaModal = function(date) {
-            document.getElementById('mediaModal').style.display = 'block';
-            document.getElementById('mediaForm').reset();
-            document.getElementById('mediaDate').value = date || formatDate(new Date());
-            document.getElementById('fileName').textContent = 'No file chosen';
-            document.getElementById('thumbnailPreview').style.display = 'none';
-            document.getElementById('mediaKeywordsInput').innerHTML = '<input type="text" class="tag-input-field" id="mediaKeywordField" placeholder="Add keywords..." onkeydown="handleKeywordInput(event)">';
-        }
-        
-        window.closeMediaModal = function() {
-            document.getElementById('mediaModal').style.display = 'none';
-        }
-        
-        window.closeBulkModal = function() {
-            document.getElementById('bulkAddModal').style.display = 'none';
-        }
-        
-        window.openBulkAddModal = function() {
-            document.getElementById('bulkAddModal').style.display = 'block';
-        }
-        
-        window.saveEvent = function(e) {
-            e.preventDefault();
-            const event = {
-                id: Date.now(),
-                title: document.getElementById('eventTitle').value,
-                date: document.getElementById('eventDate').value,
-                time: document.getElementById('eventTime').value,
-                duration: document.getElementById('eventDuration').value,
-                pillar: document.getElementById('eventPillar').value,
-                where: document.getElementById('eventWhere').value,
-                who: document.getElementById('eventWho').value,
-                why: document.getElementById('eventWhy').innerHTML,
-                tags: Array.from(document.querySelectorAll('#tagsInput .tag-input-item')).map(el => el.textContent.replace('×', '').trim())
-            };
-            events.push(event);
-            saveEventsToStorage();
-            renderCurrentView();
-            closeModal();
-            showToast('Event added successfully!');
-        }
-        
-        window.saveMediaItem = async function(e) {
-            e.preventDefault();
-            const submitButton = e.target.querySelector('button[type="submit"]');
-            submitButton.textContent = 'Uploading...';
-            submitButton.disabled = true;
-            const mediaId = Date.now();
-            const thumbnailFile = document.getElementById('mediaThumbnail').files[0];
-            let thumbnailUrl = thumbnailFile ? await blobToBase64(thumbnailFile) : createColorPlaceholder();
-            const selectedPlatforms = Array.from(document.querySelectorAll('#mediaModal input[name="platform"]:checked')).map(cb => cb.value);
-            const keywords = Array.from(document.querySelectorAll('#mediaKeywordsInput .tag-input-item')).map(el => el.textContent.replace('×', '').trim());
-            const mediaItem = {
-                id: mediaId,
-                title: document.getElementById('mediaTitle').value,
-                brand: document.getElementById('mediaBrand').value,
-                type: document.getElementById('mediaType').value,
-                platforms: selectedPlatforms,
-                publishDate: document.getElementById('mediaDate').value,
-                publishTime: document.getElementById('mediaTime').value,
-                thumbnail: thumbnailUrl,
-                keywords: keywords,
-                access: document.querySelector('input[name="mediaAccess"]:checked').value
-            };
-            mediaItems.push(mediaItem);
-            saveMediaItemsMinimal();
-            renderCurrentView();
-            closeMediaModal();
-            showToast('Media item added successfully!');
-            submitButton.textContent = 'SAVE MEDIA';
-            submitButton.disabled = false;
-        }
-        
-        window.handleTagInput = function(e) {
-            if (e.key === 'Enter' || e.key === ',') {
-                e.preventDefault();
-                const input = e.target;
-                const tag = input.value.trim();
-                if (tag) {
-                    const el = document.createElement('div');
-                    el.className = 'tag-input-item';
-                    el.innerHTML = `${tag}<span class="tag-remove" onclick="this.parentElement.remove()">×</span>`;
-                    document.getElementById('tagsInput').insertBefore(el, input);
-                    input.value = '';
-                }
-            }
-        }
-        
-        window.focusTagInput = function() {
-            document.getElementById('tagInputField').focus();
-        }
-        
-        window.formatText = function(command) {
-            document.execCommand(command, false, null);
-        }
-        
-        window.printCalendar = function() { window.print(); }
-        window.exportToCSV = function() { showToast('Exporting to CSV...'); }
-        window.exportToJSON = function() { showToast('Exporting to JSON...'); }
-        
-        function formatDate(date) { return date.toISOString().split('T')[0]; }
-        
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-        
-        function renderWeekView() {}
-        function renderAgendaView() {}
-        function renderYearView() {}
-        
-        window.saveBulkEvents = function() {
-            closeBulkModal();
-            showToast('Events added!');
-        }
-        
-        window.onclick = (e) => {
-            if (e.target.classList.contains('modal')) {
-                closeModal();
-                closeMediaModal();
-                closeBulkModal();
-            }
-        };
-        
-        function createColorPlaceholder() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 32; canvas.height = 32;
-            const ctx = canvas.getContext('2d');
-            const gradient = ctx.createLinearGradient(0, 0, 32, 32);
-            gradient.addColorStop(0, `hsl(${Math.random() * 360}, 70%, 50%)`);
-            gradient.addColorStop(1, `hsl(${Math.random() * 360}, 70%, 40%)`);
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, 32, 32);
-            return canvas.toDataURL('image/jpeg', 0.5);
-        }
-        
-        function blobToBase64(blob) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(blob);
-            });
-        }
-        
-        function saveMediaItemsMinimal() {
-            const minimalItems = mediaItems.map(item => ({ ...item, thumbnail: item.thumbnail?.startsWith('data:image') ? createColorPlaceholder() : item.thumbnail }));
-            localStorage.setItem('luxuryCalendarMedia', JSON.stringify(minimalItems));
-        }
-        
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
-</body>
-</html>
+
+            const firstDay = new Date(year, month
