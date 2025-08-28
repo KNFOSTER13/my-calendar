@@ -4,35 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✨ Kimberly Nicole Foster's Calendar</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Pillar Colors */
-            --pillar-work: #FF1493;
-            --pillar-education: #FF6347;
-            --pillar-relationships: #FFD700;
-            --pillar-money: #00FF7F;
-            --pillar-business: #00CED1;
-            --pillar-leisure: #4169E1;
-            --pillar-vanity: #8A2BE2;
-            --pillar-health: #9ACD32;
-            --pillar-home: #6A5ACD;
-
-            /* Purple palette - Updated */
-            --primary-1: #6204BF;
-            --primary-2: #B272F2;
-            --primary-3: #9781ED;
-            --primary-4: #5D04D9;
-            --primary-5: #914BF2;
+            /* Dark luxury palette */
+            --bg-dark: #1E1E1E;
+            --bg-darker: #141414;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.5);
             
-            /* UI colors */
-            --bg-dark: #202124;
-            --bg-darker: #16171a;
-            --bg-charcoal: #1E1E1E;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.1);
-            --text: #fff;
-            --text-muted: rgba(255, 255, 255, 0.6);
+            /* Purple accent colors */
+            --purple-primary: #9B7EED;
+            --purple-secondary: #7B5FCD;
+            --purple-glow: rgba(155, 126, 237, 0.5);
+            --purple-glow-faint: rgba(155, 126, 237, 0.3);
+            
+            /* Pillar colors - luminous palette */
+            --work-color: #FF1493;
+            --education-color: #FF6347;
+            --relationships-color: #FFD700;
+            --money-color: #00FF7F;
+            --business-color: #00CED1;
+            --leisure-color: #4169E1;
+            --self-care-color: #C8A2C8; /* Updated from vanity */
+            --wellness-color: #9370DB; /* Updated from health */
+            --home-color: #FF69B4;
             
             /* Spacing scale */
             --space-xs: 0.25rem;
@@ -51,7 +49,7 @@
         }
         
         body {
-            font-family: 'Inter', 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             font-weight: 400;
             background: var(--bg-dark);
             color: var(--text);
@@ -61,11 +59,12 @@
             font-size: 16px;
         }
         
-        /* Typography hierarchy */
+        /* Typography */
         h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
             font-weight: 600;
             line-height: 1.2;
-            transition: font-weight 0.3s ease;
+            letter-spacing: -0.02em;
         }
         
         .container {
@@ -74,27 +73,21 @@
             padding: var(--space-lg);
         }
         
-        /* Header with enhanced spacing */
+        /* Header -- UPDATED */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: var(--space-2xl);
+            margin-bottom: var(--space-xl);
             flex-wrap: wrap;
             gap: var(--space-lg);
         }
         
         .header h1 {
-            font-size: 2.8em;
-            font-weight: 500;
+            font-size: 2.5em;
+            font-weight: 500; /* Bolder */
             color: var(--text);
-            text-shadow: 0 0 20px rgba(151, 129, 237, 0.5);
-            animation: titleGlow 3s ease-in-out infinite alternate;
-        }
-        
-        @keyframes titleGlow {
-            0% { text-shadow: 0 0 20px rgba(151, 129, 237, 0.5); }
-            100% { text-shadow: 0 0 30px rgba(151, 129, 237, 0.8), 0 0 40px rgba(151, 129, 237, 0.4); }
+            letter-spacing: -0.03em;
         }
         
         .header-controls {
@@ -104,42 +97,41 @@
             flex-wrap: wrap;
         }
         
-        /* View Switcher with animations */
+        /* View Switcher -- UPDATED */
         .view-switcher {
             display: flex;
             background: var(--bg-darker);
             border-radius: 12px;
             padding: 4px;
             gap: 4px;
-            position: relative;
+            border: 1px solid var(--border);
         }
         
         .view-btn {
-            padding: var(--space-sm) var(--space-md);
+            padding: var(--space-sm) var(--space-lg);
             background: transparent;
             border: none;
             color: var(--text-muted);
             cursor: pointer;
             border-radius: 8px;
-            font-size: 1em;
+            font-size: 0.95em;
             font-weight: 500;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            font-family: 'Inter', sans-serif;
         }
-
+        
         .view-btn.active {
-            background: var(--primary-3);
+            background: var(--purple-primary);
             color: white;
-            box-shadow: 0 0 20px rgba(151, 129, 237, 0.5);
+            box-shadow: 0 4px 15px rgba(155, 126, 237, 0.4);
         }
         
         .view-btn:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             color: var(--text);
         }
         
-        /* Search Bar with glow */
+        /* Search Bar -- UPDATED with purple glow */
         .search-bar {
             position: relative;
             width: 300px;
@@ -149,68 +141,118 @@
             width: 100%;
             padding: var(--space-sm) var(--space-lg) var(--space-sm) var(--space-md);
             background: var(--bg-darker);
-            border: 1px solid var(--border);
+            border: 1px solid var(--purple-secondary);
             border-radius: 12px;
             color: var(--text);
-            font-size: 1em;
+            font-size: 0.95em;
             transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 0 8px var(--purple-glow-faint);
         }
         
         .search-input:focus {
             outline: none;
-            border-color: var(--primary-3);
-            box-shadow: 0 0 20px rgba(151, 129, 237, 0.3);
+            border-color: var(--purple-primary);
+            background: rgba(255, 255, 255, 0.02);
+            box-shadow: 0 0 12px var(--purple-glow);
         }
         
-        .search-input::placeholder { color: var(--text-muted); }
-        
-        .search-icon {
-            position: absolute;
-            right: var(--space-md);
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-        
-        /* UPDATED: Pillar Navigation Buttons */
+        /* Luxury Filter Pills - UPDATED */
         .filter-tags {
             display: flex;
-            gap: var(--space-md);
+            gap: var(--space-sm);
             flex-wrap: wrap;
             margin-bottom: var(--space-2xl);
         }
+        
         .filter-tag {
-            padding: 10px 20px;
-            background: var(--bg-charcoal);
-            border: 1px solid transparent;
-            border-radius: 8px;
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--bg-darker);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
             font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Poppins', sans-serif;
             font-weight: 500;
             color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            text-align: center;
+            position: relative;
+            text-transform: capitalize;
+            letter-spacing: 0.02em;
         }
-        .filter-tag:hover {
-            color: var(--text);
-            transform: translateY(-2px);
+        
+        /* Individual pillar glow effects -- UPDATED */
+        .filter-tag.filter-work:hover,
+        .filter-tag.filter-work.active {
+            border-color: var(--work-color);
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+            color: white;
         }
-        .filter-tag.active {
-            color: var(--text);
-            font-weight: 600;
+        
+        .filter-tag.filter-education:hover,
+        .filter-tag.filter-education.active {
+            border-color: var(--education-color);
+            box-shadow: 0 0 15px rgba(255, 99, 71, 0.5);
+            color: white;
         }
-        /* Pillar Glow Effects */
-        .filter-tag[data-pillar="work"]:hover, .filter-tag[data-pillar="work"].active { box-shadow: 0 0 15px -2px var(--pillar-work); border-color: var(--pillar-work); }
-        .filter-tag[data-pillar="education"]:hover, .filter-tag[data-pillar="education"].active { box-shadow: 0 0 15px -2px var(--pillar-education); border-color: var(--pillar-education); }
-        .filter-tag[data-pillar="relationships"]:hover, .filter-tag[data-pillar="relationships"].active { box-shadow: 0 0 15px -2px var(--pillar-relationships); border-color: var(--pillar-relationships); }
-        .filter-tag[data-pillar="money"]:hover, .filter-tag[data-pillar="money"].active { box-shadow: 0 0 15px -2px var(--pillar-money); border-color: var(--pillar-money); }
-        .filter-tag[data-pillar="business"]:hover, .filter-tag[data-pillar="business"].active { box-shadow: 0 0 15px -2px var(--pillar-business); border-color: var(--pillar-business); }
-        .filter-tag[data-pillar="leisure"]:hover, .filter-tag[data-pillar="leisure"].active { box-shadow: 0 0 15px -2px var(--pillar-leisure); border-color: var(--pillar-leisure); }
-        .filter-tag[data-pillar="vanity"]:hover, .filter-tag[data-pillar="vanity"].active { box-shadow: 0 0 15px -2px var(--pillar-vanity); border-color: var(--pillar-vanity); }
-        .filter-tag[data-pillar="health"]:hover, .filter-tag[data-pillar="health"].active { box-shadow: 0 0 15px -2px var(--pillar-health); border-color: var(--pillar-health); }
-        .filter-tag[data-pillar="home"]:hover, .filter-tag[data-pillar="home"].active { box-shadow: 0 0 15px -2px var(--pillar-home); border-color: var(--pillar-home); }
-
+        
+        .filter-tag.filter-relationships:hover,
+        .filter-tag.filter-relationships.active {
+            border-color: var(--relationships-color);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            color: white;
+        }
+        
+        .filter-tag.filter-money:hover,
+        .filter-tag.filter-money.active {
+            border-color: var(--money-color);
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.5);
+            color: white;
+        }
+        
+        .filter-tag.filter-business:hover,
+        .filter-tag.filter-business.active {
+            border-color: var(--business-color);
+            box-shadow: 0 0 15px rgba(0, 206, 209, 0.5);
+            color: white;
+        }
+        
+        .filter-tag.filter-leisure:hover,
+        .filter-tag.filter-leisure.active {
+            border-color: var(--leisure-color);
+            box-shadow: 0 0 15px rgba(65, 105, 225, 0.5);
+            color: white;
+        }
+        
+        .filter-tag.filter-self-care:hover,
+        .filter-tag.filter-self-care.active {
+            border-color: var(--self-care-color);
+            box-shadow: 0 0 15px rgba(200, 162, 200, 0.6);
+            color: white;
+        }
+        
+        .filter-tag.filter-wellness:hover,
+        .filter-tag.filter-wellness.active {
+            border-color: var(--wellness-color);
+            box-shadow: 0 0 15px rgba(147, 112, 219, 0.5);
+            color: white;
+        }
+        
+        .filter-tag.filter-home:hover,
+        .filter-tag.filter-home.active {
+            border-color: var(--home-color);
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+            color: white;
+        }
+        
+        .filter-tag.filter-all:hover,
+        .filter-tag.filter-all.active {
+            border-color: var(--purple-primary);
+            box-shadow: 0 0 15px var(--purple-glow-faint);
+            color: white;
+        }
+        
         /* Main Layout */
         .main-layout {
             display: grid;
@@ -222,13 +264,12 @@
         /* Calendar Container */
         .calendar-container {
             background: var(--bg-darker);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: var(--space-xl);
             border: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
         }
         
+        /* Month View */
         .month-nav {
             display: flex;
             justify-content: space-between;
@@ -236,47 +277,43 @@
             margin-bottom: var(--space-xl);
         }
         
-        .nav-btn {
+        /* Default Button Style with Purple Glow -- UPDATED */
+        .nav-btn, .today-btn {
             background: var(--bg-dark);
-            border: 1px solid var(--border);
+            border: 1px solid var(--purple-secondary);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 8px var(--purple-glow-faint);
+        }
+
+        .nav-btn:hover, .today-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--purple-primary);
+            box-shadow: 0 0 12px var(--purple-glow);
+        }
+
+        .nav-btn {
             width: 45px;
             height: 45px;
             border-radius: 12px;
             font-size: 1.2em;
-            cursor: pointer;
-            color: var(--text);
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        .nav-btn:hover {
-            background: var(--primary-3);
-            border-color: var(--primary-3);
-            transform: scale(1.1);
-        }
-        
         .today-btn {
             padding: var(--space-xs) var(--space-md);
-            background: rgba(151, 129, 237, 0.2);
-            border: 1px solid var(--primary-3);
             border-radius: 20px;
-            color: var(--text);
             font-size: 0.9em;
-            cursor: pointer;
-            transition: all 0.3s ease;
             font-weight: 500;
-        }
-        
-        .today-btn:hover {
-            background: var(--primary-3);
-            transform: scale(1.05);
         }
         
         .month-year {
             font-size: 1.8em;
-            font-weight: 500;
+            font-weight: 300;
+            font-family: 'Poppins', sans-serif;
         }
         
         .weekdays {
@@ -290,8 +327,9 @@
             text-align: center;
             font-weight: 500;
             color: var(--text-muted);
-            font-size: 0.95em;
+            font-size: 0.9em;
             padding: var(--space-sm) 0;
+            font-family: 'Inter', sans-serif;
         }
         
         .calendar-grid {
@@ -300,9 +338,10 @@
             gap: var(--space-sm);
         }
         
+        /* Calendar Day with Purple Glow -- UPDATED */
         .calendar-day {
             background: var(--bg-dark);
-            border: 1px solid var(--border);
+            border: 1px solid var(--purple-secondary);
             border-radius: 12px;
             padding: var(--space-sm);
             aspect-ratio: 1 / 1;
@@ -312,23 +351,29 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 0 8px var(--purple-glow-faint);
         }
         
         .calendar-day:hover {
-            border-color: var(--primary-2);
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border-color: var(--purple-primary);
+            background: rgba(255, 255, 255, 0.02);
+            box-shadow: 0 0 12px var(--purple-glow);
+            transform: translateY(-2px);
         }
         
-        .calendar-day.other-month { opacity: 0.3; }
+        .calendar-day.other-month {
+            opacity: 0.3;
+            box-shadow: none;
+            border-color: var(--border);
+        }
         
         .calendar-day.today {
-            background: linear-gradient(135deg, rgba(151, 129, 237, 0.2), rgba(145, 75, 242, 0.1));
-            border-color: var(--primary-3);
+            background: rgba(155, 126, 237, 0.1);
+            border-color: var(--purple-primary);
         }
         
         .day-number {
-            font-weight: 600;
+            font-weight: 500;
             font-size: 1em;
             margin-bottom: var(--space-xs);
         }
@@ -343,26 +388,8 @@
             overflow: hidden;
             align-content: flex-start;
         }
-
-        .media-item {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-            background-size: cover;
-            background-position: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .media-item:hover {
-            transform: scale(2.5);
-            z-index: 20;
-        }
         
+        /* Event Pills with pillar colors */
         .event {
             padding: 4px 8px;
             border-radius: 6px;
@@ -370,210 +397,305 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            position: relative;
             transition: all 0.3s ease;
             font-size: 0.85em;
             color: white;
         }
-
+        
         .event:hover {
             transform: scale(1.05);
             z-index: 10;
         }
         
-        /* Event Glows instead of backgrounds */
-        .event { border: 1px solid; }
-        .event.work { border-color: var(--pillar-work); background: rgba(255, 20, 147, 0.1); box-shadow: 0 0 8px -2px var(--pillar-work); }
-        .event.education { border-color: var(--pillar-education); background: rgba(255, 99, 71, 0.1); box-shadow: 0 0 8px -2px var(--pillar-education); }
-        .event.relationships { border-color: var(--pillar-relationships); background: rgba(255, 215, 0, 0.1); box-shadow: 0 0 8px -2px var(--pillar-relationships); }
-        .event.money { border-color: var(--pillar-money); background: rgba(0, 255, 127, 0.1); box-shadow: 0 0 8px -2px var(--pillar-money); }
-        .event.business { border-color: var(--pillar-business); background: rgba(0, 206, 209, 0.1); box-shadow: 0 0 8px -2px var(--pillar-business); }
-        .event.leisure { border-color: var(--pillar-leisure); background: rgba(65, 105, 225, 0.1); box-shadow: 0 0 8px -2px var(--pillar-leisure); }
-        .event.vanity { border-color: var(--pillar-vanity); background: rgba(138, 43, 226, 0.1); box-shadow: 0 0 8px -2px var(--pillar-vanity); }
-        .event.health { border-color: var(--pillar-health); background: rgba(154, 205, 50, 0.1); box-shadow: 0 0 8px -2px var(--pillar-health); }
-        .event.home { border-color: var(--pillar-home); background: rgba(106, 90, 205, 0.1); box-shadow: 0 0 8px -2px var(--pillar-home); }
-
-        .more-events {
-            font-size: 0.8em;
-            color: var(--primary-2);
-            cursor: pointer;
-            margin-top: 2px;
-        }
-        .more-events:hover { text-decoration: underline; }
+        .event.work { background: var(--work-color); }
+        .event.education { background: var(--education-color); color: #333; }
+        .event.relationships { background: var(--relationships-color); color: #333; }
+        .event.money { background: var(--money-color); color: #333; }
+        .event.business { background: var(--business-color); }
+        .event.leisure { background: var(--leisure-color); }
+        .event.self-care { background: var(--self-care-color); color: #333; } /* Updated */
+        .event.wellness { background: var(--wellness-color); } /* Updated */
+        .event.home { background: var(--home-color); }
         
+        /* Week View */
+        .week-view { display: none; }
+        .week-view.active { display: block; }
+        .week-container { display: flex; flex-direction: column; }
+        
+        /* Agenda View */
+        .agenda-view { display: none; }
+        .agenda-view.active { display: block; }
+        
+        /* Year View */
+        .year-view { display: none; }
+        .year-view.active { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); }
+        
+        /* Sidebar */
         .sidebar {
             display: flex;
             flex-direction: column;
             gap: var(--space-lg);
         }
         
+        /* Quick Add Section */
         .quick-add {
             background: var(--bg-darker);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: var(--space-xl);
             border: 1px solid var(--border);
         }
         
-        .quick-add h3, .tags-section h3, .tags-cloud h3, .export-controls h3 {
-            font-size: 1.3em;
+        .quick-add h3, .tags-section h3, .tags-cloud h3, .export-controls h3, .sync-status-widget h3 {
+            font-size: 1.1em;
             margin-bottom: var(--space-md);
             font-weight: 500;
+            font-family: 'Poppins', sans-serif;
         }
         
-        .add-btn {
+        .quick-add .add-btn { /* Specific styling for quick add buttons */
             width: 100%;
             padding: var(--space-md);
-            background: linear-gradient(135deg, var(--primary-3), var(--primary-5));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             color: white;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: var(--space-sm);
+            font-family: 'Inter', sans-serif;
         }
-        .add-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(151, 129, 237, 0.4); }
         
-        .bulk-add-btn {
-            margin-top: var(--space-sm);
-            background: transparent;
-            border: 2px solid var(--primary-3);
-            color: var(--primary-3);
+        .quick-add .add-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
-        .bulk-add-btn:hover { background: var(--primary-3); color: white; }
         
-        .tags-section, .tags-cloud, .export-controls, .sync-status-widget {
+        /* Other sidebar sections */
+        .sync-status-widget,
+        .tags-section,
+        .tags-cloud,
+        .export-controls {
             background: var(--bg-darker);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: var(--space-xl);
             border: 1px solid var(--border);
         }
         
+        /* Modal Styling -- UPDATED */
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(20px);
             z-index: 1000;
             padding: var(--space-lg);
             overflow-y: auto;
-            animation: fadeIn 0.3s ease;
         }
         
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
         .modal-content {
-            background: linear-gradient(135deg, var(--bg-dark), rgba(151, 129, 237, 0.05));
+            background: linear-gradient(135deg, #413E59, #222326); /* New Gradient */
             max-width: 600px;
             margin: 40px auto;
             border-radius: 20px;
             padding: var(--space-2xl);
             position: relative;
-            border: 1px solid rgba(151, 129, 237, 0.3);
-            animation: slideUp 0.3s ease;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 100px rgba(151, 129, 237, 0.1);
+            border: 1px solid var(--purple-primary);
+            box-shadow: 0 0 40px var(--purple-glow),
+                        inset 0 0 20px rgba(155, 126, 237, 0.1);
+            animation: modalGlow 2s ease-in-out infinite alternate;
         }
         
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes modalGlow {
+            from { box-shadow: 0 0 40px var(--purple-glow), inset 0 0 20px rgba(155, 126, 237, 0.1); }
+            to { box-shadow: 0 0 60px var(--purple-glow), inset 0 0 30px rgba(155, 126, 237, 0.15); }
+        }
         
         .modal h3 {
-            font-size: 1.8em;
+            font-size: 1.6em;
             margin-bottom: var(--space-xl);
             color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
             text-align: center;
-            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
         
         .close-modal {
             position: absolute;
-            top: var(--space-md); right: var(--space-md);
-            background: rgba(255, 255, 255, 0.1);
+            top: var(--space-md);
+            right: var(--space-md);
+            background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 40px; height: 40px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             font-size: 1.4em;
             cursor: pointer;
             color: var(--text-muted);
             transition: all 0.3s ease;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .close-modal:hover { color: var(--text); background: var(--primary-3); transform: rotate(90deg) scale(1.1); }
         
-        .form-group { margin-bottom: var(--space-lg); }
+        .close-modal:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+        
+        /* Form elements with purple accents */
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+        
         .form-group label {
-            display: block; font-size: 0.9em; color: var(--primary-2);
-            margin-bottom: var(--space-sm); font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
+            display: block;
+            font-size: 0.85em;
+            color: var(--purple-primary);
+            margin-bottom: var(--space-sm);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: 'Inter', sans-serif;
         }
         
         input, select, textarea {
             width: 100%;
             padding: var(--space-md);
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(151, 129, 237, 0.2);
-            border-radius: 12px;
+            background: rgba(20, 20, 35, 0.8);
+            border: 1px solid rgba(155, 126, 237, 0.3);
+            border-radius: 10px;
             color: var(--text);
-            font-family: 'Inter', 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1em;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95em;
             transition: all 0.3s ease;
         }
         
-        /* UPDATED: Custom Dropdown Arrow & Glow */
-        .form-group { position: relative; }
-        select { -webkit-appearance: none; -moz-appearance: none; appearance: none; padding-right: 40px; }
-        .form-group.select-wrapper::after {
-            content: '▾'; font-size: 1.5em; color: var(--primary-2);
-            position: absolute; right: 20px; top: 60%; /* Adjusted for alignment */
-            transform: translateY(-50%); pointer-events: none; transition: transform 0.3s ease;
-        }
-        #eventPillar { transition: box-shadow 0.3s ease, border-color 0.3s ease; }
-        #eventPillar.glow-work { box-shadow: 0 0 15px -2px var(--pillar-work); border-color: var(--pillar-work); }
-        #eventPillar.glow-education { box-shadow: 0 0 15px -2px var(--pillar-education); border-color: var(--pillar-education); }
-        #eventPillar.glow-relationships { box-shadow: 0 0 15px -2px var(--pillar-relationships); border-color: var(--pillar-relationships); }
-        #eventPillar.glow-money { box-shadow: 0 0 15px -2px var(--pillar-money); border-color: var(--pillar-money); }
-        #eventPillar.glow-business { box-shadow: 0 0 15px -2px var(--pillar-business); border-color: var(--pillar-business); }
-        #eventPillar.glow-leisure { box-shadow: 0 0 15px -2px var(--pillar-leisure); border-color: var(--pillar-leisure); }
-        #eventPillar.glow-vanity { box-shadow: 0 0 15px -2px var(--pillar-vanity); border-color: var(--pillar-vanity); }
-        #eventPillar.glow-health { box-shadow: 0 0 15px -2px var(--pillar-health); border-color: var(--pillar-health); }
-        #eventPillar.glow-home { box-shadow: 0 0 15px -2px var(--pillar-home); border-color: var(--pillar-home); }
-
         input:focus, select:focus, textarea:focus {
-            outline: none; border-color: var(--primary-3);
-            box-shadow: 0 0 30px rgba(151, 129, 237, 0.4), inset 0 0 10px rgba(151, 129, 237, 0.1);
-            background: rgba(151, 129, 237, 0.08);
+            outline: none;
+            border-color: var(--purple-primary);
+            background: rgba(25, 25, 40, 0.9);
+            box-shadow: 0 0 20px rgba(155, 126, 237, 0.3);
         }
+        
+        /* Solid Purple buttons with NEW gradient */
+        .modal-content .add-btn, .media-save-btn {
+            width: 100%;
+            padding: var(--space-md) var(--space-xl);
+            background: linear-gradient(135deg, #9681ED, #7759CA);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1em;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: var(--space-lg);
+            text-transform: uppercase;
+            box-shadow: 0 0 25px rgba(132, 106, 232, 0.5);
+        }
+        
+        .modal-content .add-btn:hover, .media-save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 30px rgba(132, 106, 232, 0.7);
+        }
+        
+        .modal-content .add-btn:active, .media-save-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Time preset buttons */
+        .time-presets {
+            display: flex;
+            gap: var(--space-xs);
+            margin-top: var(--space-xs);
+            flex-wrap: wrap;
+        }
+        
+        .time-preset {
+            padding: 6px 12px;
+            background: rgba(155, 126, 237, 0.2);
+            border: 1px solid rgba(155, 126, 237, 0.4);
+            border-radius: 16px;
+            color: var(--purple-primary);
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .time-preset:hover {
+            background: rgba(155, 126, 237, 0.3);
+            border-color: var(--purple-primary);
+            transform: scale(1.05);
+        }
+        
+        /* The rest of the CSS remains the same... */
+        #eventPillar option { background: var(--bg-darker); color: var(--text); padding: var(--space-sm); }
+        #eventPillar option:hover { background: rgba(255, 255, 255, 0.1); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
-        .modal .add-btn { margin-top: var(--space-lg); font-size: 1.1em; padding: var(--space-md) var(--space-xl); }
-        .tags-input { display: flex; flex-wrap: wrap; gap: var(--space-xs); padding: var(--space-sm); border: 2px solid rgba(151, 129, 237, 0.2); border-radius: 12px; min-height: 50px; }
-        
-        /* Media Details Modal Styles */
-        .media-details-modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, var(--bg-darker), rgba(151, 129, 237, 0.05));
-            border: 1px solid rgba(151, 129, 237, 0.3); border-radius: 16px; padding: var(--space-xl);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 100px rgba(151, 129, 237, 0.2);
-            z-index: 1001; min-width: 400px; animation: popIn 0.3s ease;
-        }
-        .media-details-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 1px solid rgba(151, 129, 237, 0.3); }
-        .media-details-title { font-size: 1.4em; font-weight: 500; color: var(--primary-2); }
-        .media-details-close { width: 30px; height: 30px; background: rgba(255, 255, 255, 0.1); border: none; border-radius: 50%; color: var(--text); cursor: pointer; font-size: 1.2em; transition: all 0.3s ease; }
-        .media-details-close:hover { background: var(--primary-3); transform: rotate(90deg); }
-        .media-details-content { display: flex; flex-direction: column; gap: var(--space-md); }
-        .media-detail-row { display: flex; align-items: flex-start; gap: var(--space-md); }
-        .media-detail-label { font-size: 0.9em; color: var(--primary-2); min-width: 100px; text-transform: uppercase; letter-spacing: 1px; }
+        .tags-input { display: flex; flex-wrap: wrap; gap: var(--space-xs); padding: var(--space-sm); background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; min-height: 50px; cursor: text; }
+        .tag-input-item { background: rgba(255, 255, 255, 0.1); color: white; padding: var(--space-xs) var(--space-sm); border-radius: 16px; font-size: 0.9em; display: flex; align-items: center; gap: var(--space-xs); }
+        .tag-remove { cursor: pointer; font-size: 1.2em; opacity: 0.8; }
+        .tag-remove:hover { opacity: 1; }
+        .tag-input-field { border: none; background: transparent; outline: none; flex: 1; min-width: 100px; padding: var(--space-xs); color: var(--text); }
+        .rich-editor { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; transition: all 0.3s ease; }
+        .rich-editor:focus-within { border-color: rgba(255, 255, 255, 0.3); }
+        .editor-toolbar { display: flex; gap: var(--space-xs); padding: var(--space-sm); border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.2); }
+        .editor-btn { width: 35px; height: 35px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text); transition: all 0.2s ease; font-weight: 600; }
+        .editor-btn:hover { background: rgba(255, 255, 255, 0.1); }
+        .editor-content { min-height: 150px; padding: var(--space-md); color: var(--text); font-size: 0.95em; }
+        .editor-content:focus { outline: none; }
+        .sync-indicator { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) var(--space-md); background: var(--bg-dark); border-radius: 8px; font-size: 0.9em; }
+        .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--money-color); animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+        .platforms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: var(--space-sm) 0; }
+        .platform-checkbox { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9em; }
+        .platform-checkbox input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: #9B7EED; }
+        .platform-checkbox span { user-select: none; color: var(--text-muted); transition: color 0.2s; }
+        .platform-checkbox:hover span { color: var(--text); }
+        .file-upload-wrapper { position: relative; overflow: hidden; }
+        .file-upload-wrapper input[type="file"] { position: absolute; left: -9999px; }
+        .file-upload-label { display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md); background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; cursor: pointer; transition: all 0.3s ease; }
+        .file-upload-label:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.2); }
+        .file-upload-label #fileLabel { padding: 6px 16px; background: rgba(255, 255, 255, 0.1); border-radius: 6px; font-size: 0.9em; font-weight: 500; }
+        .file-upload-label #fileName { color: var(--text-muted); font-size: 0.9em; }
+        .access-options { display: flex; gap: var(--space-xl); padding: var(--space-sm) 0; }
+        .access-radio { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .access-radio input[type="radio"] { width: 20px; height: 20px; cursor: pointer; accent-color: #9B7EED; }
+        .access-radio span { font-size: 0.95em; user-select: none; }
+        .media-indicator { display: inline-block; width: 24px; height: 24px; border-radius: 4px; overflow: hidden; cursor: pointer; transition: transform 0.3s ease; border: 1px solid rgba(155, 126, 237, 0.5); margin-right: 3px; position: relative; }
+        .media-indicator img { width: 100%; height: 100%; object-fit: cover; }
+        .media-indicator:hover { transform: scale(3); z-index: 100; box-shadow: 0 0 20px rgba(155, 126, 237, 0.8); }
+        .media-details-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #1A1A2E, #16213E); border: 1px solid var(--purple-primary); border-radius: 20px; padding: var(--space-xl); box-shadow: 0 0 60px var(--purple-glow), inset 0 0 30px rgba(155, 126, 237, 0.15); z-index: 1001; min-width: 400px; max-width: 500px; animation: modalGlow 2s ease-in-out infinite alternate; }
+        .media-details-header { text-align: center; margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 1px solid rgba(155, 126, 237, 0.3); }
+        .media-details-title { font-size: 1.8em; font-weight: 300; color: var(--purple-primary); text-transform: uppercase; letter-spacing: 0.1em; }
+        .media-details-close { position: absolute; top: var(--space-md); right: var(--space-md); width: 30px; height: 30px; background: rgba(255, 255, 255, 0.1); border: none; border-radius: 50%; color: var(--text); cursor: pointer; font-size: 1.2em; transition: all 0.3s ease; }
+        .media-details-close:hover { background: var(--purple-primary); transform: rotate(90deg); }
+        .media-thumbnail-large { width: 100%; max-height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: var(--space-lg); border: 2px solid rgba(155, 126, 237, 0.3); }
+        .media-detail-row { display: flex; align-items: flex-start; gap: var(--space-md); margin-bottom: var(--space-md); }
+        .media-detail-label { font-size: 0.85em; color: var(--purple-primary); min-width: 100px; text-transform: uppercase; letter-spacing: 0.05em; }
         .media-detail-value { color: var(--text); flex: 1; }
-        .media-thumbnail-preview { width: 100%; max-width: 300px; border-radius: 12px; margin-top: var(--space-sm); border: 2px solid rgba(151, 129, 237, 0.3); }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); z-index: 1000; }
-        
-        /* Responsive */
-        @media (max-width: 1200px) { .main-layout { grid-template-columns: 1fr; } .sidebar { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); } }
-        @media (max-width: 768px) { body { font-size: 14px; } .header { flex-direction: column; align-items: stretch; } .header h1 { font-size: 2em; } .form-row { grid-template-columns: 1fr; } .search-bar { width: 100%; } }
-        
-        /* Scrollbar styling */
-        ::-webkit-scrollbar { width: 10px; }
+        .media-detail-link { color: var(--purple-primary); text-decoration: none; transition: all 0.3s ease; }
+        .media-detail-link:hover { color: var(--text); text-decoration: underline; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--bg-darker); color: white; padding: var(--space-md) var(--space-xl); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); z-index: 2000; animation: slideInUp 0.3s ease-out; font-weight: 500; }
+        @keyframes slideInUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .media-item { width: 20px; height: 20px; border-radius: 4px; background-size: cover; background-position: center; border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer; transition: transform 0.2s ease; }
+        .media-item:hover { transform: scale(2.5); z-index: 20; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg-darker); }
-        ::-webkit-scrollbar-thumb { background: var(--primary-3); border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary-2); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+        @media (max-width: 1200px) { .main-layout { grid-template-columns: 1fr; } .sidebar { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-lg); } }
+        @media (max-width: 768px) { .filter-tags { flex-direction: column; } .filter-tag { width: 100%; } }
     </style>
 </head>
 <body>
@@ -588,14 +710,23 @@
                     <button class="view-btn" onclick="switchView('year')">Year</button>
                 </div>
                 <div class="search-bar">
-                    <input type="text" class="search-input" id="searchInput" placeholder="Search events..." oninput="searchEvents()">
-                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search events, tags, people..." oninput="searchEvents()">
                 </div>
             </div>
         </div>
         
         <div class="filter-tags" id="filterTags">
-             </div>
+            <div class="filter-tag filter-all active" onclick="toggleFilter('all', this)">All Events</div>
+            <div class="filter-tag filter-work" onclick="toggleFilter('work', this)">Work</div>
+            <div class="filter-tag filter-education" onclick="toggleFilter('education', this)">Education</div>
+            <div class="filter-tag filter-relationships" onclick="toggleFilter('relationships', this)">Relationships</div>
+            <div class="filter-tag filter-money" onclick="toggleFilter('money', this)">Money</div>
+            <div class="filter-tag filter-business" onclick="toggleFilter('business', this)">Business</div>
+            <div class="filter-tag filter-leisure" onclick="toggleFilter('leisure', this)">Leisure</div>
+            <div class="filter-tag filter-self-care" onclick="toggleFilter('self-care', this)">Self-Care</div>
+            <div class="filter-tag filter-wellness" onclick="toggleFilter('wellness', this)">Wellness</div>
+            <div class="filter-tag filter-home" onclick="toggleFilter('home', this)">Home</div>
+        </div>
         
         <div class="main-layout">
             <div class="calendar-container">
@@ -603,35 +734,33 @@
                     <div class="month-nav">
                         <button class="nav-btn" onclick="previousMonth()">‹</button>
                         <div style="display: flex; align-items: center; gap: var(--space-md);">
-                            <div class="month-year" id="monthYear"></div>
+                            <div class="month-year" id="monthYear">January 2025</div>
                             <button class="today-btn" onclick="goToToday()">Today</button>
                         </div>
                         <button class="nav-btn" onclick="nextMonth()">›</button>
                     </div>
                     <div class="weekdays">
-                        <div class="weekday">Sun</div> <div class="weekday">Mon</div> <div class="weekday">Tue</div>
-                        <div class="weekday">Wed</div> <div class="weekday">Thu</div> <div class="weekday">Fri</div> <div class="weekday">Sat</div>
+                        <div class="weekday">Sun</div><div class="weekday">Mon</div><div class="weekday">Tue</div><div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div><div class="weekday">Sat</div>
                     </div>
                     <div class="calendar-grid" id="calendarGrid"></div>
                 </div>
-                </div>
+                
+                <div id="weekView" class="week-view"></div>
+                <div id="agendaView" class="agenda-view"></div>
+                <div id="yearView" class="year-view"></div>
+            </div>
             
             <div class="sidebar">
                 <div class="quick-add">
                     <h3>Quick Add</h3>
-                    <button class="add-btn magnetic" onclick="openAddModal()">+ Add New Event</button>
+                    <button class="add-btn" onclick="openAddModal()">+ Add New Event</button>
                     <button class="add-btn" onclick="openAddMediaModal()">+ Add New Media</button>
+                    <button class="add-btn" onclick="openBulkAddModal()">+ Add Multiple Events</button>
                 </div>
-                <div class="sync-status-widget">
-                    <h3>☁️ Cloud Sync</h3>
-                    </div>
-                <div class="tags-cloud">
-                    <h3>Popular Tags</h3>
-                    <div class="tag-list" id="tagCloud"></div>
-                </div>
-                <div class="export-controls">
-                    <h3>Export & Print</h3>
-                    </div>
+                
+                <div class="sync-status-widget"><h3>Cloud Sync</h3><div class="sync-indicator"><span class="sync-dot" id="syncDot"></span><span class="sync-text" id="syncText">Checking connection...</span></div></div>
+                <div class="tags-cloud"><h3>Popular Tags</h3><div class="tag-list" id="tagCloud"></div></div>
+                <div class="export-controls"><h3>Export & Print</h3><div class="export-buttons"><button class="export-btn" onclick="printCalendar()">Print</button><button class="export-btn" onclick="exportToCSV()">CSV</button><button class="export-btn" onclick="exportToJSON()">JSON</button></div></div>
             </div>
         </div>
     </div>
@@ -642,209 +771,24 @@
             <h3 id="modalTitle">Add New Event</h3>
             <form id="eventForm" onsubmit="saveEvent(event)">
                 <input type="hidden" id="eventId">
-                <div class="form-group">
-                    <label>Event Title</label>
-                    <input type="text" id="eventTitle" required>
+                <div class="form-group"><label>What? (Event Title)</label><input type="text" id="eventTitle" required></div>
+                <div class="form-row">
+                    <div class="form-group"><label>When? (Date)</label><input type="date" id="eventDate" required></div>
+                    <div class="form-group"><label>Duration</label><select id="eventDuration"><option value="30">30 minutes</option><option value="60" selected>1 hour</option><option value="90">1.5 hours</option><option value="120">2 hours</option><option value="180">3 hours</option><option value="240">4 hours</option><option value="480">All day</option></select></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Date</label>
-                        <input type="date" id="eventDate" required>
+                        <label>Start Time</label><input type="time" id="eventTime">
+                        <div class="time-presets"><button type="button" class="time-preset" onclick="setTime('09:00')">9 AM</button><button type="button" class="time-preset" onclick="setTime('12:00')">Noon</button><button type="button" class="time-preset" onclick="setTime('15:00')">3 PM</button><button type="button" class="time-preset" onclick="setTime('18:00')">6 PM</button></div>
                     </div>
                     <div class="form-group">
-                        <label>Time</label>
-                        <input type="time" id="eventTime">
+                        <label>Pillar</label>
+                        <select id="eventPillar" required>
+                            <option value="work">Work</option><option value="education">Education</option><option value="relationships">Relationships</option><option value="money">Money</option><option value="business">Business</option><option value="leisure">Leisure</option><option value="self-care">Self-Care</option><option value="wellness">Wellness</option><option value="home">Home</option>
+                        </select>
                     </div>
                 </div>
-                <div class="form-group select-wrapper">
-                    <label>Pillar</label>
-                    <select id="eventPillar" onchange="updatePillarGlow(this)">
-                        <option value="work">Work</option>
-                        <option value="education">Education</option>
-                        <option value="relationships">Relationships</option>
-                        <option value="money">Money</option>
-                        <option value="business">Business</option>
-                        <option value="leisure">Leisure</option>
-                        <option value="vanity">Vanity</option>
-                        <option value="health">Health</option>
-                        <option value="home">Home</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>Where? (Location)</label><input type="text" id="eventWhere" placeholder="Location or link"></div>
+                <div class="form-group"><label>Who? (People Involved)</label><input type="text" id="eventWho" placeholder="Who's involved?"></div>
                 <div class="form-group">
-                    <label>Location / Link</label>
-                    <input type="text" id="eventWhere" placeholder="Add location or a link...">
-                </div>
-                <button type="submit" class="add-btn">Save Event</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="modal" id="mediaModal">
-        </div>
-    
-    <script type="module">
-        // Firebase scripts (unchanged)
-    </script>
-    
-    <script>
-        // State
-        let currentView = 'month';
-        let currentDate = new Date();
-        let events = [];
-        let mediaItems = [];
-        let activeFilters = new Set(['all']);
-        
-        const pillars = {
-            work: { name: 'Work', color: 'var(--pillar-work)' },
-            education: { name: 'Education', color: 'var(--pillar-education)' },
-            relationships: { name: 'Relationships', color: 'var(--pillar-relationships)' },
-            money: { name: 'Money', color: 'var(--pillar-money)' },
-            business: { name: 'Business', color: 'var(--pillar-business)' },
-            leisure: { name: 'Leisure', color: 'var(--pillar-leisure)' },
-            vanity: { name: 'Vanity', color: 'var(--pillar-vanity)' },
-            health: { name: 'Health', color: 'var(--pillar-health)' },
-            home: { name: 'Home', color: 'var(--pillar-home)' }
-        };
-
-        // Initialize
-        async function init() {
-            const localEvents = localStorage.getItem('calendarEvents');
-            if (localEvents) events = JSON.parse(localEvents);
-            
-            populateFilterTags();
-            renderCurrentView();
-            // ... other init functions
-        }
-        
-        // NEW: Populate filter tags dynamically
-        function populateFilterTags() {
-            const container = document.getElementById('filterTags');
-            let html = `<div class="filter-tag active" onclick="toggleFilter('all', this)">All</div>`;
-            for (const [key, value] of Object.entries(pillars)) {
-                html += `<div class="filter-tag" data-pillar="${key}" onclick="toggleFilter('${key}', this)">${value.name}</div>`;
-            }
-            container.innerHTML = html;
-        }
-
-        // UPDATED: updatePillarGlow for dropdown
-        function updatePillarGlow(selectElement) {
-            selectElement.className = ''; // Clear existing classes
-            if (selectElement.value) {
-                selectElement.classList.add('glow-' + selectElement.value);
-            }
-        }
-
-        function renderCurrentView() {
-            renderMonthView();
-        }
-        
-        function renderMonthView() {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            
-            document.getElementById('monthYear').textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-            
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const daysInPrevMonth = new Date(year, month, 0).getDate();
-            
-            const grid = document.getElementById('calendarGrid');
-            grid.innerHTML = '';
-            
-            for (let i = firstDay - 1; i >= 0; i--) {
-                grid.appendChild(createDayElement(daysInPrevMonth - i, month - 1, year, true));
-            }
-            
-            for (let day = 1; day <= daysInMonth; day++) {
-                grid.appendChild(createDayElement(day, month, year, false));
-            }
-            
-            const remainingCells = 42 - grid.children.length;
-            for (let day = 1; day <= remainingCells; day++) {
-                grid.appendChild(createDayElement(day, month + 1, year, true));
-            }
-        }
-        
-        function createDayElement(day, month, year, isOtherMonth) {
-            const dayEl = document.createElement('div');
-            dayEl.className = 'calendar-day';
-            if (isOtherMonth) dayEl.classList.add('other-month');
-            
-            const cellDate = new Date(year, month, day);
-            if (formatDate(cellDate) === formatDate(new Date())) dayEl.classList.add('today');
-            
-            dayEl.innerHTML = `<div class="day-number">${day}</div><div class="day-events"></div>`;
-            const eventsEl = dayEl.querySelector('.day-events');
-
-            const dayEvents = events.filter(e => e.date === formatDate(cellDate) && (activeFilters.has('all') || activeFilters.has(e.pillar)));
-            dayEvents.forEach(event => eventsEl.appendChild(createEventElement(event)));
-            
-            dayEl.onclick = () => { if (!isOtherMonth) openAddModal(formatDate(cellDate)); };
-            return dayEl;
-        }
-
-        function createEventElement(event) {
-            const eventEl = document.createElement('div');
-            eventEl.className = `event ${event.pillar}`;
-            eventEl.textContent = event.title;
-            // Add onclick for details view if needed
-            return eventEl;
-        }
-        
-        function toggleFilter(filter, el) {
-            document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            
-            activeFilters.clear();
-            activeFilters.add(filter);
-            renderCurrentView();
-        }
-
-        // Modal Logic
-        function openAddModal(date) {
-            document.getElementById('eventForm').reset();
-            document.getElementById('eventId').value = '';
-            document.getElementById('eventDate').value = date || formatDate(new Date());
-            const pillarSelect = document.getElementById('eventPillar');
-            updatePillarGlow(pillarSelect); // Set initial glow
-            document.getElementById('eventModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('eventModal').style.display = 'none';
-        }
-
-        function saveEvent(e) {
-            e.preventDefault();
-            const eventData = {
-                id: document.getElementById('eventId').value || Date.now(),
-                title: document.getElementById('eventTitle').value,
-                date: document.getElementById('eventDate').value,
-                time: document.getElementById('eventTime').value,
-                pillar: document.getElementById('eventPillar').value,
-                where: document.getElementById('eventWhere').value,
-            };
-            
-            const existingIndex = events.findIndex(ev => ev.id == eventData.id);
-            if (existingIndex > -1) {
-                events[existingIndex] = eventData;
-            } else {
-                events.push(eventData);
-            }
-
-            localStorage.setItem('calendarEvents', JSON.stringify(events));
-            renderCurrentView();
-            closeModal();
-        }
-
-        // Navigation
-        function previousMonth() { currentDate.setMonth(currentDate.getMonth() - 1); renderMonthView(); }
-        function nextMonth() { currentDate.setMonth(currentDate.getMonth() + 1); renderMonthView(); }
-        function goToToday() { currentDate = new Date(); renderMonthView(); }
-        
-        function formatDate(date) { return date.toISOString().split('T')[0]; }
-        
-        init();
-    </script>
-</body>
-</html>
+                    <label>Why? (Purpose
