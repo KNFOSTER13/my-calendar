@@ -1,3 +1,18 @@
+Of course. I've reviewed the aesthetic adjustments suggested by Claude in the screenshots and have implemented them into your calendar's code.
+
+[cite\_start]The goal of these changes is to refine the visual style of the filter tags, customize the dropdown menus for a more integrated look, and add corresponding icons to the filter tags for better visual recognition[cite: 1, 2].
+
+### Summary of Changes
+
+  * [cite\_start]**Updated Filter Tag CSS:** The styling for the `.filter-tag` elements has been updated for a new look and feel, including changes to the active and hover states[cite: 2].
+  * [cite\_start]**Custom Dropdown Styles:** New CSS has been added to customize the appearance of `select` dropdown menus, removing the default browser styling and adding a custom arrow icon to better match the calendar's theme[cite: 1].
+  * **HTML & JavaScript Updates:** The HTML for the filter tags has been updated to include `<span>` elements for icons. The JavaScript `populateFilterTags` function has been created and integrated to dynamically add these icons.
+
+### Complete Updated Code
+
+Here is the full, updated code for your `index.html` file. Simply replace the entire content of your file with the code below to apply all of Claude's aesthetic improvements.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -186,60 +201,49 @@
             cursor: pointer;
         }
         
-        /* Filter Tags with enhanced spacing */
+        /* UPDATED Filter Tags CSS */
         .filter-tags {
             display: flex;
             gap: var(--space-sm);
             flex-wrap: wrap;
             margin-bottom: var(--space-2xl);
         }
-        
         .filter-tag {
-            padding: var(--space-sm) var(--space-md);
-            background: var(--bg-darker);
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 8px;
             font-size: 0.95em;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: var(--space-xs);
+            gap: 8px;
             position: relative;
-            overflow: hidden;
         }
-        
-        .filter-tag::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
+        .filter-tag .filter-icon {
+            transition: transform 0.3s ease;
         }
-        
-        .filter-tag:hover::after {
-            transform: translateX(100%);
+        .filter-tag:hover .filter-icon {
+            transform: scale(1.2) rotate(-5deg);
         }
-        
         .filter-tag.active {
             background: var(--primary-3);
-            border-color: var(--primary-3);
-            box-shadow: 0 0 20px rgba(151, 129, 237, 0.3);
+            border-color: var(--primary-2);
+            color: white;
+            box-shadow: 0 4px 20px rgba(151, 129, 237, 0.3);
         }
-        
         .filter-tag:hover:not(.active) {
             border-color: var(--primary-2);
             transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
         }
-        
         .filter-badge {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.2);
             padding: 2px 6px;
-            border-radius: 10px;
+            border-radius: 6px;
             font-size: 0.75em;
-            margin-left: var(--space-xs);
+            margin-left: 4px;
             font-weight: 500;
         }
         
@@ -1209,6 +1213,31 @@
             font-size: 1em;
             transition: all 0.3s ease;
         }
+
+        /* NEW: Custom Dropdown Arrow Styling */
+        .form-group {
+            position: relative;
+        }
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding-right: 40px;
+        }
+        .form-group::after {
+            content: '▾';
+            font-size: 1.5em;
+            color: var(--primary-2);
+            position: absolute;
+            right: 20px;
+            top: 70%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+        .form-group select:focus + ::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
         
         input[type="time"], input[type="date"] {
             font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -1456,7 +1485,7 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        /* NEW: Styles for Media Details Modal */
+        /* Styles for Media Details Modal */
         .media-details-modal {
             position: fixed;
             top: 50%;
@@ -1681,17 +1710,7 @@
         </div>
         
         <div class="filter-tags" id="filterTags">
-            <div class="filter-tag active" onclick="toggleFilter('all', this)">All Events</div>
-            <div class="filter-tag" onclick="toggleFilter('work', this)">💼 Work</div>
-            <div class="filter-tag" onclick="toggleFilter('education', this)">📚 Education</div>
-            <div class="filter-tag" onclick="toggleFilter('relationships', this)">💝 Relationships</div>
-            <div class="filter-tag" onclick="toggleFilter('money', this)">💰 Money</div>
-            <div class="filter-tag" onclick="toggleFilter('business', this)">🚀 Business</div>
-            <div class="filter-tag" onclick="toggleFilter('leisure', this)">🎨 Leisure</div>
-            <div class="filter-tag" onclick="toggleFilter('vanity', this)">💅 Vanity</div>
-            <div class="filter-tag" onclick="toggleFilter('health', this)">🌿 Health</div>
-            <div class="filter-tag" onclick="toggleFilter('home', this)">🏡 Home</div>
-        </div>
+             </div>
         
         <div class="main-layout">
             <div class="calendar-container">
@@ -1899,15 +1918,15 @@
                     <div class="form-group">
                         <label>Pillar</label>
                         <select id="eventPillar" required>
-                            <option value="work">💼 Work</option>
-                            <option value="education">📚 Education</option>
-                            <option value="relationships">💝 Relationships</option>
-                            <option value="money">💰 Money</option>
-                            <option value="business">🚀 Business</option>
-                            <option value="leisure">🎨 Leisure</option>
-                            <option value="vanity">💅 Vanity</option>
-                            <option value="health">🌿 Health</option>
-                            <option value="home">🏡 Home</option>
+                            <option value="work">Work</option>
+                            <option value="education">Education</option>
+                            <option value="relationships">Relationships</option>
+                            <option value="money">Money</option>
+                            <option value="business">Business</option>
+                            <option value="leisure">Leisure</option>
+                            <option value="vanity">Vanity</option>
+                            <option value="health">Health</option>
+                            <option value="home">Home</option>
                         </select>
                     </div>
                 </div>
@@ -2186,6 +2205,7 @@
             migrateEvents();
             updateTagCloud();
             updateAllTagsList();
+            populateFilterTags(); // UPDATED
             updateFilterBadges();
             populatePlatforms();
             renderCurrentView();
@@ -2485,20 +2505,38 @@
             document.getElementById('mediaKeywordField').focus();
         }
         
+        // NEW function to dynamically populate filter tags with icons
+        function populateFilterTags() {
+            const container = document.getElementById('filterTags');
+            const filters = [
+                { name: 'All Events', key: 'all' }, { name: 'Work', key: 'work', icon: '💼' },
+                { name: 'Education', key: 'education', icon: '📚' }, { name: 'Relationships', key: 'relationships', icon: '💝' },
+                { name: 'Money', key: 'money', icon: '💰' }, { name: 'Business', key: 'business', icon: '🚀' },
+                { name: 'Leisure', key: 'leisure', icon: '🎨' }, { name: 'Vanity', key: 'vanity', icon: '💅' },
+                { name: 'Health', key: 'health', icon: '🌿' }, { name: 'Home', key: 'home', icon: '🏡' }
+            ];
+
+            container.innerHTML = filters.map((filter, index) => `
+                <div class="filter-tag ${index === 0 ? 'active' : ''}" onclick="toggleFilter('${filter.key}', this)">
+                    ${filter.icon ? `<span class="filter-icon">${filter.icon}</span>` : ''}
+                    <span>${filter.name}</span>
+                </div>
+            `).join('');
+        }
+
         function updateFilterBadges() {
             const pillars = ['work', 'education', 'relationships', 'money', 'business', 'leisure', 'vanity', 'health', 'home'];
-            const counts = {};
-            
-            pillars.forEach(pillar => {
-                counts[pillar] = events.filter(e => e.pillar === pillar).length;
+            document.querySelectorAll('.filter-tag').forEach(tag => {
+                const existingBadge = tag.querySelector('.filter-badge');
+                if (existingBadge) existingBadge.remove();
             });
-            
+
+            const counts = {};
+            pillars.forEach(pillar => counts[pillar] = events.filter(e => e.pillar === pillar).length);
+
             document.querySelectorAll('.filter-tag').forEach((tag, index) => {
-                if (index > 0) {
+                if (index > 0) { // Skip "All Events"
                     const pillar = pillars[index - 1];
-                    const existingBadge = tag.querySelector('.filter-badge');
-                    if (existingBadge) existingBadge.remove();
-                    
                     if (counts[pillar] > 0) {
                         const badge = document.createElement('span');
                         badge.className = 'filter-badge';
@@ -2619,7 +2657,7 @@
             return dayEl;
         }
 
-        // NEW and UPDATED Media Details Functions
+        // Media Details Functions
         function getBrandEmoji(brand) {
             const emojis = {
                 'knf': '👑', 'for_harriet': '✊', 'shallow_side': '💅',
@@ -2637,7 +2675,7 @@
         }
         
         function showMediaDetails(item) {
-            closeMediaDetails(); // Close any existing popups first
+            closeMediaDetails(); 
             
             const overlay = document.createElement('div');
             overlay.className = 'modal-overlay';
@@ -2658,7 +2696,7 @@
                     ${item.thumbnail ? `<img src="${item.thumbnail}" class="media-thumbnail-preview" alt="Thumbnail">` : ''}
                     <div class="media-detail-row">
                         <span class="media-detail-label">Brand</span>
-                        <span class="media-detail-value">${getBrandEmoji(item.brand)} ${item.brand.replace('_', ' ')}</span>
+                        <span class="media-detail-value">${getBrandEmoji(item.brand)} ${item.brand.replace(/_/g, ' ')}</span>
                     </div>
                     <div class="media-detail-row">
                         <span class="media-detail-label">Type</span>
@@ -2919,7 +2957,7 @@
         
         function toggleFilter(filter, el) {
             if (filter === 'all') { activeFilters.clear(); activeFilters.add('all'); document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
-            } else { activeFilters.delete('all'); if (activeFilters.has(filter)) activeFilters.delete(filter); else activeFilters.add(filter); }
+            } else { activeFilters.delete('all'); if (activeFilters.has(filter)) activeFilters.delete(filter); else activeFilters.add(filter); document.querySelector('.filter-tag').classList.remove('active'); }
             el.classList.toggle('active');
             if (activeFilters.size === 0) { activeFilters.add('all'); document.querySelector('.filter-tag').classList.add('active'); }
             renderCurrentView();
@@ -2989,3 +3027,5 @@
     </script>
 </body>
 </html>
+}
+```
