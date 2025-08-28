@@ -2002,7 +2002,7 @@
         // Import Firebase modules
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, writeBatch } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-
+        import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDTd41vs11zjKeGu7Ee911M30-8v88h-ng",
@@ -2020,6 +2020,8 @@
         try {
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
+            const storage = getStorage(app);
+            window.storage = storage; // Make it globally accessible
             firebaseEnabled = true;
             console.log('Firebase initialized successfully');
             updateSyncStatus('connected');
